@@ -20,13 +20,14 @@ export default async function DashboardPage() {
   const supabase = createClient()
   const { data: { user } } = await supabase.auth.getUser()
 
-  const { data: proposals = [] } = await supabase
-    .from('proposals')
-    .select('*')
-    .eq('user_id', user!.id)
-    .order('created_at', { ascending: false })
+  const { data } = await supabase
+  .from('proposals')
+  .select('*')
+  .eq('user_id', user!.id)
+  .order('created_at', { ascending: false })
 
-  const total = proposals.length
+const proposals = data ?? []
+const total = proposals.length
   const sent = proposals.filter((p: Proposal) => p.status === 'sent').length
   const accepted = proposals.filter((p: Proposal) => p.status === 'accepted').length
   const closeRate = sent > 0 ? Math.round((accepted / sent) * 100) : 0
