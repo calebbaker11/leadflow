@@ -3,12 +3,7 @@ import { createAdminClient } from '@/lib/supabase/server'
 import { NextResponse } from 'next/server'
 import type Stripe from 'stripe'
 
-// Stripe requires the raw body for webhook signature verification
-export const config = {
-  api: {
-    bodyParser: false,
-  },
-}
+export const runtime = 'nodejs'
 
 export async function POST(request: Request) {
   const body = await request.text()
