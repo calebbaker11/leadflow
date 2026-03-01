@@ -20,12 +20,12 @@ export default async function ProposalsPage() {
   const { data: { user } } = await supabase.auth.getUser()
 
   const { data } = await supabase
-  .from('proposals')
-  .select('*')
-  .eq('user_id', user!.id)
-  .order('created_at', { ascending: false })
+    .from('proposals')
+    .select('*')
+    .eq('user_id', user!.id)
+    .order('created_at', { ascending: false })
 
-const proposals = data ?? []
+  const proposals = data ?? []
 
   return (
     <div className="flex flex-col">
