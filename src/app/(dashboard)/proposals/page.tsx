@@ -19,11 +19,13 @@ export default async function ProposalsPage() {
   const supabase = createClient()
   const { data: { user } } = await supabase.auth.getUser()
 
-  const { data: proposals = [] } = await supabase
-    .from('proposals')
-    .select('*')
-    .eq('user_id', user!.id)
-    .order('created_at', { ascending: false })
+  const { data } = await supabase
+  .from('proposals')
+  .select('*')
+  .eq('user_id', user!.id)
+  .order('created_at', { ascending: false })
+
+const proposals = data ?? []
 
   return (
     <div className="flex flex-col">
