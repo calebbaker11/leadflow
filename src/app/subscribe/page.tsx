@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, Suspense } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { Button } from '@/components/ui/button'
 import { Check, Zap, AlertCircle } from 'lucide-react'
@@ -18,6 +18,14 @@ const included = [
 ]
 
 export default function SubscribePage() {
+  return (
+    <Suspense>
+      <SubscribeContent />
+    </Suspense>
+  )
+}
+
+function SubscribeContent() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const canceled = searchParams.get('canceled')
