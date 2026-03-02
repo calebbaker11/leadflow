@@ -39,9 +39,17 @@ export async function PUT(
 
   const body = await request.json()
 
+  // Allowlist only fields users are permitted to update
+  const allowed = ['client_name', 'business_type', 'template_type', 'scope', 'price',
+    'timeline', 'additional_notes', 'generated_proposal_text', 'status']
+  const update: Record<string, unknown> = {}
+  for (const key of allowed) {
+    if (key in body) update[key] = body[key]
+  }
+
   const { data, error } = await supabase
     .from('proposals')
-    .update(body)
+    .update(update)
     .eq('id', params.id)
     .eq('user_id', user.id)
     .select()
