@@ -32,21 +32,26 @@ function LoginContent() {
     setLoading(true)
     setErrorMsg('')
 
-    const { data, error } = await supabase.auth.signInWithPassword({ email, password })
+    try {
+      const { data, error } = await supabase.auth.signInWithPassword({ email, password })
 
-    if (error) {
-      setErrorMsg(error.message)
+      if (error) {
+        setErrorMsg(`Auth error: ${error.message}`)
+        setLoading(false)
+        return
+      }
+
+      if (!data.session) {
+        setErrorMsg('No session returned — NEXT_PUBLIC_SUPABASE_URL or NEXT_PUBLIC_SUPABASE_ANON_KEY is not set on Vercel.')
+        setLoading(false)
+        return
+      }
+
+      window.location.href = redirect
+    } catch (err) {
+      setErrorMsg(`Unexpected error: ${err instanceof Error ? err.message : String(err)}`)
       setLoading(false)
-      return
     }
-
-    if (!data.session) {
-      setErrorMsg('Login failed: no session created. Supabase env vars may not be set on Vercel.')
-      setLoading(false)
-      return
-    }
-
-    window.location.href = redirect
   }
 
   return (
