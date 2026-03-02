@@ -13,3 +13,10 @@ out/
 # misc
 .DS_Store
 *.log
+
+# TypeScript
+*.tsbuildinfo
+next-env.d.ts
+
+# lockfiles (generated locally)
+package-lock.json
