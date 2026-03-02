@@ -17,7 +17,7 @@ const features = [
     icon: Zap,
     title: 'Generate in seconds',
     description:
-      'Describe the project, hit generate. GPT-4 writes a complete, professional proposal — scoped, priced, and ready to send.',
+      'Describe the project, hit generate. GPT-4o writes a complete, professional proposal — scoped, priced, and ready to send.',
   },
   {
     icon: FileText,
@@ -50,7 +50,7 @@ const steps = [
     number: '02',
     title: 'Generate with AI',
     description:
-      'GPT-4 writes a complete, professional proposal tailored to your business type and project scope.',
+      'GPT-4o writes a complete, professional proposal tailored to your business type and project scope.',
   },
   {
     number: '03',
@@ -87,7 +87,7 @@ const testimonials = [
 const includedItems = [
   '7 days free — no charge today',
   'Unlimited proposals',
-  'GPT-4 powered generation',
+  'GPT-4o powered generation',
   'PDF export',
   'Shareable proposal links',
   'All 4 business templates',
@@ -158,7 +158,7 @@ export default function LandingPage() {
           <div className="inline-flex items-center gap-2 rounded-full border border-accent/20 bg-accent/5 px-4 py-1.5 mb-8">
             <Sparkles className="h-3 w-3 text-accent" />
             <span className="text-xs font-medium text-accent">
-              Powered by GPT-4 · Used by 500+ businesses
+              Powered by GPT-4o · Used by 500+ businesses
             </span>
           </div>
 
