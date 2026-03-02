@@ -18,7 +18,8 @@ const statusVariant: Record<string, 'default' | 'success' | 'warning' | 'danger'
 
 export default async function DashboardPage() {
   const supabase = createClient()
-  const { data: { user } } = await supabase.auth.getUser()
+  const { data: { session } } = await supabase.auth.getSession()
+  const user = session!.user
 
   const { data } = await supabase
   .from('proposals')
