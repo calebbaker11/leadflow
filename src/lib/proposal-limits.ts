@@ -1,0 +1,63 @@
+import type { SupabaseClient } from '@supabase/supabase-js'
+
+export interface ProposalUsage {
+  used: number
+  limit: number
+  plan: 'trial' | 'paid' | 'none'
+  canCreate: boolean
+  /** ISO string of when the billing period resets (paid plan only) */
+  periodEnd: string | null
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export async function getProposalUsage(userId: string, supabase: SupabaseClient<any, any, any>): Promise<ProposalUsage> {
+  const { data: profile } = await supabase
+    .from('profiles')
+    .select('subscription_status')
+    .eq('id', userId)
+    .single()
+
+  if (!profile) return { used: 0, limit: 0, plan: 'none', canCreate: false, periodEnd: null }
+
+  const status = profile.subscription_status
+
+  if (status === 'trialing') {
+    const { count } = await supabase
+      .from('proposals')
+      .select('*', { count: 'exact', head: true })
+      .eq('user_id', userId)
+    const used = count ?? 0
+    return { used, limit: 3, plan: 'trial', canCreate: used < 3, periodEnd: null }
+  }
+
+  if (status === 'active') {
+    const { data: sub } = await supabase
+      .from('subscriptions')
+      .select('current_period_start, current_period_end')
+      .eq('user_id', userId)
+      .order('created_at', { ascending: false })
+      .limit(1)
+      .maybeSingle()
+
+    const periodStart =
+      sub?.current_period_start ??
+      new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString()
+
+    const { count } = await supabase
+      .from('proposals')
+      .select('*', { count: 'exact', head: true })
+      .eq('user_id', userId)
+      .gte('created_at', periodStart)
+
+    const used = count ?? 0
+    return {
+      used,
+      limit: 30,
+      plan: 'paid',
+      canCreate: used < 30,
+      periodEnd: sub?.current_period_end ?? null,
+    }
+  }
+
+  return { used: 0, limit: 0, plan: 'none', canCreate: false, periodEnd: null }
+}

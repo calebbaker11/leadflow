@@ -1,6 +1,7 @@
 import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import { Sidebar } from '@/components/layout/sidebar'
+import { getProposalUsage } from '@/lib/proposal-limits'
 
 export default async function DashboardLayout({
   children,
@@ -31,10 +32,12 @@ export default async function DashboardLayout({
     redirect('/subscribe')
   }
 
+  const usage = await getProposalUsage(user.id, supabase)
+
   return (
     <div className="flex h-screen overflow-hidden bg-background">
       <div className="no-print">
-        <Sidebar />
+        <Sidebar usage={usage} />
       </div>
       <main className="flex-1 overflow-auto">{children}</main>
     </div>

@@ -1,97 +1,62 @@
-'use client'
-
-import { useState } from 'react'
-import { useRouter } from 'next/navigation'
-import { Topbar } from '@/components/layout/topbar'
-import { ProposalForm } from '@/components/proposals/proposal-form'
-import { ProposalPreview } from '@/components/proposals/proposal-preview'
+import { createClient } from '@/lib/supabase/server'
+import { getProposalUsage } from '@/lib/proposal-limits'
+import { NewProposalClient } from '@/components/proposals/new-proposal-client'
 import { Button } from '@/components/ui/button'
-import type { ProposalFormData } from '@/types'
-import { toast } from 'sonner'
-import { FileText } from 'lucide-react'
+import { Card, CardContent } from '@/components/ui/card'
+import { Lock, ArrowRight } from 'lucide-react'
+import Link from 'next/link'
+import { formatDate } from '@/lib/utils'
 
-export default function NewProposalPage() {
-  const router = useRouter()
-  const [generating, setGenerating] = useState(false)
-  const [proposal, setProposal] = useState<{ id: string; generated_proposal_text: string; client_name: string } | null>(null)
+export default async function NewProposalPage() {
+  const supabase = createClient()
+  const { data: { session } } = await supabase.auth.getSession()
+  const user = session!.user
 
-  async function handleGenerate(formData: ProposalFormData) {
-    setGenerating(true)
+  const usage = await getProposalUsage(user.id, supabase)
 
-    try {
-      const res = await fetch('/api/proposals/generate', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
-      })
-
-      const data = await res.json()
-
-      if (!res.ok) {
-        throw new Error(data.error || 'Failed to generate proposal')
-      }
-
-      setProposal(data.proposal)
-      toast.success('Proposal generated successfully')
-    } catch (err) {
-      toast.error(err instanceof Error ? err.message : 'Something went wrong')
-    } finally {
-      setGenerating(false)
-    }
-  }
-
-  function handleViewFull() {
-    if (proposal) {
-      router.push(`/proposals/${proposal.id}`)
-    }
-  }
-
-  return (
-    <div className="flex flex-col h-full">
-      <Topbar
-        title="New Proposal"
-        description="Fill in the details and generate your proposal"
-        action={
-          proposal ? (
-            <Button size="sm" onClick={handleViewFull}>
-              <FileText className="h-3.5 w-3.5" />
-              View & Export
-            </Button>
-          ) : undefined
-        }
-      />
-
-      <div className="flex flex-1 overflow-hidden">
-        {/* Form Panel */}
-        <div className="w-[420px] flex-shrink-0 border-r border-border overflow-y-auto p-6">
-          <ProposalForm onGenerate={handleGenerate} loading={generating} />
-        </div>
-
-        {/* Preview Panel */}
-        <div className="flex-1 overflow-y-auto p-6">
-          {proposal ? (
-            <ProposalPreview
-              content={proposal.generated_proposal_text}
-              clientName={proposal.client_name}
-            />
-          ) : (
-            <div className="flex h-full flex-col items-center justify-center gap-4 text-center">
-              <div className="flex h-16 w-16 items-center justify-center rounded-2xl border border-border bg-card">
-                <FileText className="h-7 w-7 text-text-muted" />
-              </div>
-              <div>
-                <p className="text-sm font-medium text-text-secondary mb-1">
-                  Your proposal preview appears here
-                </p>
-                <p className="text-xs text-text-muted max-w-xs">
-                  Fill in the form and click &ldquo;Generate Proposal&rdquo; to create a professional,
-                  client-ready proposal powered by GPT-4.
-                </p>
-              </div>
+  if (!usage.canCreate) {
+    const isTrial = usage.plan === 'trial'
+    return (
+      <div className="flex h-full flex-col items-center justify-center p-8">
+        <Card className="w-full max-w-md">
+          <CardContent className="p-8 flex flex-col items-center text-center gap-4">
+            <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-danger/10">
+              <Lock className="h-6 w-6 text-danger" />
             </div>
-          )}
-        </div>
+            <div>
+              <h2 className="text-base font-semibold text-text-primary">
+                {isTrial ? 'Free trial limit reached' : 'Monthly limit reached'}
+              </h2>
+              <p className="text-sm text-text-muted mt-1.5 leading-relaxed">
+                {isTrial
+                  ? `You've used all ${usage.limit} proposals included in your free trial.`
+                  : `You've used all ${usage.limit} proposals for this billing period.`}
+                {!isTrial && usage.periodEnd && (
+                  <> Your limit resets on{' '}
+                    <span className="text-text-secondary">{formatDate(usage.periodEnd)}</span>.
+                  </>
+                )}
+              </p>
+            </div>
+            {isTrial ? (
+              <Link href="/settings" className="w-full">
+                <Button className="w-full">
+                  Upgrade to continue
+                  <ArrowRight className="h-4 w-4" />
+                </Button>
+              </Link>
+            ) : (
+              <Link href="/proposals">
+                <Button variant="outline" size="sm">
+                  Back to proposals
+                </Button>
+              </Link>
+            )}
+          </CardContent>
+        </Card>
       </div>
-    </div>
-  )
+    )
+  }
+
+  return <NewProposalClient usage={usage} />
 }

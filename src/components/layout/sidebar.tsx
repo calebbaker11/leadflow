@@ -12,6 +12,7 @@ import {
 } from 'lucide-react'
 import { createClient } from '@/lib/supabase/client'
 import { useRouter } from 'next/navigation'
+import type { ProposalUsage } from '@/lib/proposal-limits'
 
 const navItems = [
   { href: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
@@ -19,7 +20,11 @@ const navItems = [
   { href: '/settings', label: 'Settings', icon: Settings },
 ]
 
-export function Sidebar() {
+interface SidebarProps {
+  usage: ProposalUsage
+}
+
+export function Sidebar({ usage }: SidebarProps) {
   const pathname = usePathname()
   const router = useRouter()
   const supabase = createClient()
@@ -28,6 +33,11 @@ export function Sidebar() {
     await supabase.auth.signOut()
     router.push('/login')
   }
+
+  const remaining = Math.max(usage.limit - usage.used, 0)
+  const pct = usage.limit > 0 ? Math.min((usage.used / usage.limit) * 100, 100) : 0
+  const isAtLimit = remaining === 0
+  const isNearLimit = !isAtLimit && remaining <= Math.ceil(usage.limit * 0.2)
 
   return (
     <aside className="flex h-screen w-60 flex-col border-r border-border bg-surface">
@@ -48,7 +58,6 @@ export function Sidebar() {
                 ? pathname === '/dashboard'
                 : pathname.startsWith(item.href)
             const Icon = item.icon
-
             return (
               <li key={item.href}>
                 <Link
@@ -72,6 +81,36 @@ export function Sidebar() {
             )
           })}
         </ul>
+
+        {/* Usage widget */}
+        {usage.plan !== 'none' && (
+          <div className="mt-4 rounded-lg border border-border bg-card p-3">
+            <div className="flex items-center justify-between mb-2">
+              <p className="text-[11px] font-medium text-text-muted uppercase tracking-wider">
+                Proposals
+              </p>
+              <p className={cn(
+                'text-xs font-semibold tabular-nums',
+                isAtLimit ? 'text-danger' : isNearLimit ? 'text-warning' : 'text-text-secondary'
+              )}>
+                {remaining} left
+              </p>
+            </div>
+            <div className="h-1.5 rounded-full bg-border overflow-hidden">
+              <div
+                className={cn(
+                  'h-full rounded-full transition-all duration-300',
+                  isAtLimit ? 'bg-danger' : isNearLimit ? 'bg-warning' : 'bg-accent'
+                )}
+                style={{ width: `${pct}%` }}
+              />
+            </div>
+            <p className="text-[10px] text-text-muted mt-1.5">
+              {usage.used}/{usage.limit}{' '}
+              {usage.plan === 'trial' ? 'free trial' : 'this billing period'}
+            </p>
+          </div>
+        )}
       </nav>
 
       {/* Footer */}

@@ -1,5 +1,6 @@
 import { createClient } from '@/lib/supabase/server'
 import { generateProposal } from '@/lib/openai'
+import { getProposalUsage } from '@/lib/proposal-limits'
 import { NextResponse } from 'next/server'
 
 // POST /api/proposals/generate
@@ -46,6 +47,17 @@ export async function POST(request: Request) {
     )
   }
 
+  // Enforce proposal limits only when creating a new proposal (not regenerating)
+  if (!proposalId && !skipSubscriptionCheck) {
+    const usage = await getProposalUsage(user.id, supabase)
+    if (!usage.canCreate) {
+      const message = usage.plan === 'trial'
+        ? `You've used all ${usage.limit} proposals in your free trial. Upgrade to keep going.`
+        : `You've reached your ${usage.limit} proposal limit for this billing period. Your limit resets on the next billing date.`
+      return NextResponse.json({ error: message, limitReached: true }, { status: 403 })
+    }
+  }
+
   try {
     const generatedText = skipSubscriptionCheck
       ? `## Executive Summary\n\nThis is a test proposal for ${client_name}. OpenAI generation is disabled in test mode.\n\n## Understanding Your Needs\n\nTest content — add your OpenAI API key and billing to enable real generation.\n\n## Proposed Scope of Work\n\n- ${scope}\n\n## Project Timeline\n\n${timeline}\n\n## Investment\n\n${price}\n\n## Next Steps\n\nContact us to get started.`
@@ -59,7 +71,7 @@ export async function POST(request: Request) {
         additionalNotes: additional_notes,
       })
 
-    // Save or update the proposal with generated text
+    // Update existing proposal
     if (proposalId) {
       const { data, error } = await supabase
         .from('proposals')

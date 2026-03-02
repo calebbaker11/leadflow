@@ -1,4 +1,5 @@
 import { createClient } from '@/lib/supabase/server'
+import { getProposalUsage } from '@/lib/proposal-limits'
 import { NextResponse } from 'next/server'
 
 export async function GET() {
@@ -42,6 +43,17 @@ export async function POST(request: Request) {
 
   if (!client_name) {
     return NextResponse.json({ error: 'client_name is required' }, { status: 400 })
+  }
+
+  const skipSubscriptionCheck = process.env.SKIP_SUBSCRIPTION_CHECK === 'true'
+  if (!skipSubscriptionCheck) {
+    const usage = await getProposalUsage(user.id, supabase)
+    if (!usage.canCreate) {
+      const message = usage.plan === 'trial'
+        ? `You've used all ${usage.limit} proposals in your free trial. Upgrade to keep going.`
+        : `You've reached your ${usage.limit} proposal limit for this billing period.`
+      return NextResponse.json({ error: message, limitReached: true }, { status: 403 })
+    }
   }
 
   const { data, error } = await supabase
