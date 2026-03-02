@@ -109,7 +109,10 @@ export default function ProposalDetailPage() {
   }
 
   function handlePrint() {
+    const prev = document.title
+    document.title = `Proposal — ${proposal.client_name}`
     window.print()
+    document.title = prev
   }
 
   async function handleDelete() {

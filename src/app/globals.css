@@ -61,10 +61,11 @@
 
   .print-only {
     display: block !important;
+    padding: 2cm;
   }
 
   @page {
-    margin: 2cm;
+    margin: 0;
     size: A4;
   }
 }
