@@ -23,7 +23,9 @@ export default async function DashboardLayout({
     .eq('id', user.id)
     .single()
 
-  if (!profile || !['active', 'trialing'].includes(profile.subscription_status)) {
+  const skipSubscriptionCheck = process.env.SKIP_SUBSCRIPTION_CHECK === 'true'
+
+  if (!skipSubscriptionCheck && (!profile || !['active', 'trialing'].includes(profile.subscription_status))) {
     redirect('/subscribe')
   }
 
