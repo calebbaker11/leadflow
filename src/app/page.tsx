@@ -202,7 +202,7 @@ export default function LandingPage() {
           <div className="flex flex-wrap items-center justify-center gap-5 text-xs text-text-muted">
             <span className="flex items-center gap-1.5">
               <Check className="h-3.5 w-3.5 text-success" />
-              No card required for trial
+              No charge for 7 days
             </span>
             <span className="flex items-center gap-1.5">
               <Check className="h-3.5 w-3.5 text-success" />
@@ -533,11 +533,11 @@ export default function LandingPage() {
           </p>
           <Link href="/signup">
             <Button size="lg" className="gap-2 px-10">
-              Start free — no card required
+              Start your free trial
               <ArrowRight className="h-4 w-4" />
             </Button>
           </Link>
-          <p className="mt-4 text-xs text-text-muted">7-day trial · Then $49/mo · Cancel anytime</p>
+          <p className="mt-4 text-xs text-text-muted">Card required · No charge for 7 days · Cancel anytime</p>
         </div>
       </section>
 
