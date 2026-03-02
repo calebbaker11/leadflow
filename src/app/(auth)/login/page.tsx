@@ -2,11 +2,9 @@
 
 import { useState, Suspense } from 'react'
 import Link from 'next/link'
-import { useRouter, useSearchParams } from 'next/navigation'
-import { createClient } from '@/lib/supabase/client'
+import { loginAction } from '@/app/actions/auth'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
-import { toast } from 'sonner'
 
 export default function LoginPage() {
   return (
@@ -17,11 +15,6 @@ export default function LoginPage() {
 }
 
 function LoginContent() {
-  const router = useRouter()
-  const searchParams = useSearchParams()
-  const redirect = searchParams.get('redirect') || '/dashboard'
-  const supabase = createClient()
-
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
@@ -33,24 +26,19 @@ function LoginContent() {
     setErrorMsg('')
 
     try {
-      const { data, error } = await supabase.auth.signInWithPassword({ email, password })
-
+      const error = await loginAction(email, password)
       if (error) {
-        setErrorMsg(`Auth error: ${error.message}`)
+        setErrorMsg(error)
         setLoading(false)
-        return
       }
-
-      if (!data.session) {
-        setErrorMsg('No session returned — NEXT_PUBLIC_SUPABASE_URL or NEXT_PUBLIC_SUPABASE_ANON_KEY is not set on Vercel.')
-        setLoading(false)
-        return
-      }
-
-      window.location.href = redirect
+      // on success, loginAction redirects server-side — no client code needed
     } catch (err) {
-      setErrorMsg(`Unexpected error: ${err instanceof Error ? err.message : String(err)}`)
-      setLoading(false)
+      // Next.js redirect() throws — ignore NEXT_REDIRECT, surface real errors
+      const msg = err instanceof Error ? err.message : String(err)
+      if (!msg.includes('NEXT_REDIRECT')) {
+        setErrorMsg(msg)
+        setLoading(false)
+      }
     }
   }
 
