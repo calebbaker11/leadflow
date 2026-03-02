@@ -14,7 +14,7 @@ export default async function NewProposalPage() {
 
   const usage = await getProposalUsage(user.id, supabase)
 
-  if (!usage.canCreate) {
+  if (!usage.canCreate && usage.plan !== 'none') {
     const isTrial = usage.plan === 'trial'
     return (
       <div className="flex h-full flex-col items-center justify-center p-8">
