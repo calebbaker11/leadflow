@@ -23,30 +23,6 @@ export async function middleware(request: NextRequest) {
     }
   )
 
-  // Read session from cookie (no network round-trip to Supabase)
-  const {
-    data: { session },
-  } = await supabase.auth.getSession()
-  const user = session?.user ?? null
-
-  const { pathname } = request.nextUrl
-
-  const protectedPaths = ['/dashboard', '/proposals', '/settings']
-  const authPaths = ['/login', '/signup']
-
-  const isProtected = protectedPaths.some((p) => pathname.startsWith(p))
-  const isAuthPath = authPaths.some((p) => pathname.startsWith(p))
-
-  if (isProtected && !user) {
-    const redirectUrl = new URL('/login', request.url)
-    redirectUrl.searchParams.set('redirect', pathname)
-    return NextResponse.redirect(redirectUrl)
-  }
-
-  if (isAuthPath && user) {
-    return NextResponse.redirect(new URL('/dashboard', request.url))
-  }
-
   return supabaseResponse
 }
 
