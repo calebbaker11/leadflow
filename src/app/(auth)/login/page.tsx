@@ -40,8 +40,7 @@ function LoginContent() {
       return
     }
 
-    router.push(redirect)
-    router.refresh()
+    window.location.href = redirect
   }
 
   return (
