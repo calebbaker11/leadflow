@@ -22,7 +22,8 @@ export async function POST(request: Request) {
     .eq('id', user.id)
     .single()
 
-  if (!profile || profile.subscription_status !== 'active') {
+  const skipSubscriptionCheck = process.env.SKIP_SUBSCRIPTION_CHECK === 'true'
+  if (!skipSubscriptionCheck && (!profile || !['active', 'trialing'].includes(profile.subscription_status))) {
     return NextResponse.json({ error: 'Active subscription required' }, { status: 403 })
   }
 
