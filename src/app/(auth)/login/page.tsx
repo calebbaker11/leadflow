@@ -2,7 +2,7 @@
 
 import { useState, Suspense } from 'react'
 import Link from 'next/link'
-import { loginAction } from '@/app/actions/auth'
+import { createClient } from '@/lib/supabase/client'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 
@@ -25,12 +25,12 @@ function LoginContent() {
     setLoading(true)
     setErrorMsg('')
 
-    const error = await loginAction(email, password)
+    const supabase = createClient()
+    const { error } = await supabase.auth.signInWithPassword({ email, password })
     if (error) {
-      setErrorMsg(error)
+      setErrorMsg(error.message)
       setLoading(false)
     } else {
-      // Hard navigation so the browser sends the newly-set auth cookie
       window.location.href = '/dashboard'
     }
   }
