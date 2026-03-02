@@ -32,10 +32,16 @@ function LoginContent() {
     setLoading(true)
     setErrorMsg('')
 
-    const { error } = await supabase.auth.signInWithPassword({ email, password })
+    const { data, error } = await supabase.auth.signInWithPassword({ email, password })
 
     if (error) {
       setErrorMsg(error.message)
+      setLoading(false)
+      return
+    }
+
+    if (!data.session) {
+      setErrorMsg('Login failed: no session created. Supabase env vars may not be set on Vercel.')
       setLoading(false)
       return
     }
