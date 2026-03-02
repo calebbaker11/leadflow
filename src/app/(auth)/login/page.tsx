@@ -25,15 +25,17 @@ function LoginContent() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
+  const [errorMsg, setErrorMsg] = useState('')
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
     setLoading(true)
+    setErrorMsg('')
 
     const { error } = await supabase.auth.signInWithPassword({ email, password })
 
     if (error) {
-      toast.error(error.message)
+      setErrorMsg(error.message)
       setLoading(false)
       return
     }
@@ -77,6 +79,12 @@ function LoginContent() {
             Forgot password?
           </Link>
         </div>
+
+        {errorMsg && (
+          <div className="rounded-lg bg-red-500/10 border border-red-500/20 px-4 py-3 text-sm text-red-400">
+            {errorMsg}
+          </div>
+        )}
 
         <Button type="submit" loading={loading} className="w-full mt-1">
           Sign in
