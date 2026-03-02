@@ -2,7 +2,6 @@
 
 import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
-import { redirect } from 'next/navigation'
 
 export async function loginAction(email: string, password: string): Promise<string | null> {
   const cookieStore = cookies()
@@ -30,5 +29,5 @@ export async function loginAction(email: string, password: string): Promise<stri
     return error.message
   }
 
-  redirect('/dashboard')
+  return null
 }

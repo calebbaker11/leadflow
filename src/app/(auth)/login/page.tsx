@@ -25,20 +25,13 @@ function LoginContent() {
     setLoading(true)
     setErrorMsg('')
 
-    try {
-      const error = await loginAction(email, password)
-      if (error) {
-        setErrorMsg(error)
-        setLoading(false)
-      }
-      // on success, loginAction redirects server-side — no client code needed
-    } catch (err) {
-      // Next.js redirect() throws — ignore NEXT_REDIRECT, surface real errors
-      const msg = err instanceof Error ? err.message : String(err)
-      if (!msg.includes('NEXT_REDIRECT')) {
-        setErrorMsg(msg)
-        setLoading(false)
-      }
+    const error = await loginAction(email, password)
+    if (error) {
+      setErrorMsg(error)
+      setLoading(false)
+    } else {
+      // Hard navigation so the browser sends the newly-set auth cookie
+      window.location.href = '/dashboard'
     }
   }
 
