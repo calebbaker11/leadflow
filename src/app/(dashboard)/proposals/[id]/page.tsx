@@ -137,6 +137,7 @@ export default function ProposalDetailPage() {
 
   return (
     <div className="flex flex-col h-full">
+      <div className="no-print">
       <Topbar
         title={proposal.client_name}
         description={proposal.business_type || 'Proposal'}
@@ -165,6 +166,7 @@ export default function ProposalDetailPage() {
           </div>
         }
       />
+      </div>
 
       <div className="flex flex-1 overflow-hidden no-print">
         {/* Form Panel */}
