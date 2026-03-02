@@ -28,7 +28,7 @@ function LoginContent() {
     const supabase = createClient()
     const { error } = await supabase.auth.signInWithPassword({ email, password })
     if (error) {
-      setErrorMsg(error.message)
+      setErrorMsg(error.message || `Auth error (status ${error.status ?? 'unknown'})`)
       setLoading(false)
     } else {
       window.location.href = '/dashboard'
