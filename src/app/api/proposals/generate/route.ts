@@ -47,15 +47,17 @@ export async function POST(request: Request) {
   }
 
   try {
-    const generatedText = await generateProposal({
-      clientName: client_name,
-      businessType: business_type || 'business',
-      templateType: template_type || 'freelancer',
-      scope,
-      price,
-      timeline,
-      additionalNotes: additional_notes,
-    })
+    const generatedText = skipSubscriptionCheck
+      ? `## Executive Summary\n\nThis is a test proposal for ${client_name}. OpenAI generation is disabled in test mode.\n\n## Understanding Your Needs\n\nTest content — add your OpenAI API key and billing to enable real generation.\n\n## Proposed Scope of Work\n\n- ${scope}\n\n## Project Timeline\n\n${timeline}\n\n## Investment\n\n${price}\n\n## Next Steps\n\nContact us to get started.`
+      : await generateProposal({
+        clientName: client_name,
+        businessType: business_type || 'business',
+        templateType: template_type || 'freelancer',
+        scope,
+        price,
+        timeline,
+        additionalNotes: additional_notes,
+      })
 
     // Save or update the proposal with generated text
     if (proposalId) {
