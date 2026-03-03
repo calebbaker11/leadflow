@@ -3,17 +3,17 @@
 import { useState, Suspense } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { Button } from '@/components/ui/button'
-import { Check, Zap, AlertCircle } from 'lucide-react'
+import { Check, AlertCircle } from 'lucide-react'
 import { toast } from 'sonner'
 
 const included = [
   '7-day free trial — no charge today',
-  'Unlimited proposals',
-  'GPT-4 powered generation',
-  'PDF export (print-to-PDF)',
+  'Up to 30 proposals per month',
+  'GPT-4o powered generation',
+  'PDF export',
   'Shareable proposal links',
   'Freelancer, Agency, Contractor & Consultant templates',
-  'Deal pipeline dashboard',
+  'Proposal pipeline & analytics',
   'Cancel anytime',
 ]
 
@@ -51,11 +51,8 @@ function SubscribeContent() {
 
   return (
     <div className="min-h-screen bg-background flex flex-col items-center justify-center px-6 py-16">
-      <div className="flex items-center gap-2 mb-10">
-        <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-accent/10">
-          <Zap className="h-4 w-4 text-accent" />
-        </div>
-        <span className="text-sm font-semibold text-text-primary">LeadFlow</span>
+      <div className="mb-10">
+        <img src="/logo.svg" alt="LeadFlow" className="h-8 mx-auto" />
       </div>
 
       <div className="w-full max-w-md">

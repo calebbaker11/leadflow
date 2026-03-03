@@ -23,8 +23,7 @@ export async function POST(request: Request) {
     .eq('id', user.id)
     .single()
 
-  const skipSubscriptionCheck = process.env.SKIP_SUBSCRIPTION_CHECK === 'true'
-  if (!skipSubscriptionCheck && (!profile || !['active', 'trialing'].includes(profile.subscription_status))) {
+  if (!profile || !['active', 'trialing'].includes(profile.subscription_status)) {
     return NextResponse.json({ error: 'Active subscription required' }, { status: 403 })
   }
 
@@ -48,7 +47,7 @@ export async function POST(request: Request) {
   }
 
   // Enforce proposal limits only when creating a new proposal (not regenerating)
-  if (!proposalId && !skipSubscriptionCheck) {
+  if (!proposalId) {
     const usage = await getProposalUsage(user.id, supabase)
     if (!usage.canCreate) {
       const message = usage.plan === 'trial'
@@ -59,17 +58,15 @@ export async function POST(request: Request) {
   }
 
   try {
-    const generatedText = skipSubscriptionCheck
-      ? `## Executive Summary\n\nThis is a test proposal for ${client_name}. OpenAI generation is disabled in test mode.\n\n## Understanding Your Needs\n\nTest content — add your OpenAI API key and billing to enable real generation.\n\n## Proposed Scope of Work\n\n- ${scope}\n\n## Project Timeline\n\n${timeline}\n\n## Investment\n\n${price}\n\n## Next Steps\n\nContact us to get started.`
-      : await generateProposal({
-        clientName: client_name,
-        businessType: business_type || 'business',
-        templateType: template_type || 'freelancer',
-        scope,
-        price,
-        timeline,
-        additionalNotes: additional_notes,
-      })
+    const generatedText = await generateProposal({
+      clientName: client_name,
+      businessType: business_type || 'business',
+      templateType: template_type || 'freelancer',
+      scope,
+      price,
+      timeline,
+      additionalNotes: additional_notes,
+    })
 
     // Update existing proposal
     if (proposalId) {

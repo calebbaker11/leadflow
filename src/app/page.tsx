@@ -7,7 +7,6 @@ import {
   TrendingUp,
   Check,
   ChevronRight,
-  Star,
   Sparkles,
 } from 'lucide-react'
 
@@ -59,33 +58,9 @@ const steps = [
   },
 ]
 
-const testimonials = [
-  {
-    quote:
-      "I used to spend 2–3 hours writing proposals. Now I do it in 60 seconds and close more deals. Absolute game changer.",
-    name: 'Marcus T.',
-    role: 'Freelance Web Developer',
-    avatar: 'MT',
-  },
-  {
-    quote:
-      "Our agency sends 20+ proposals a month. LeadFlow cut that work down by 90%. The quality is better than what we wrote ourselves.",
-    name: 'Sarah K.',
-    role: 'Agency Owner',
-    avatar: 'SK',
-  },
-  {
-    quote:
-      "Clients actually comment on how professional my proposals look. Went from a 40% close rate to over 65% in two months.",
-    name: 'James R.',
-    role: 'IT Consultant',
-    avatar: 'JR',
-  },
-]
-
 const includedItems = [
   '7 days free — no charge today',
-  'Unlimited proposals',
+  'Up to 30 proposals per month',
   'GPT-4o powered generation',
   'PDF export',
   'Shareable proposal links',
@@ -154,7 +129,7 @@ export default function LandingPage() {
           <div className="inline-flex items-center gap-2 rounded-full border border-accent/20 bg-accent/5 px-4 py-1.5 mb-8">
             <Sparkles className="h-3 w-3 text-accent" />
             <span className="text-xs font-medium text-accent">
-              Powered by GPT-4o · Used by 500+ businesses
+              Powered by GPT-4o · Built for closers
             </span>
           </div>
 
@@ -217,10 +192,10 @@ export default function LandingPage() {
         <div className="mx-auto max-w-5xl px-6 py-10">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
             {[
-              { value: '500+', label: 'Active businesses' },
-              { value: '12,000+', label: 'Proposals generated' },
               { value: '< 60s', label: 'Average creation time' },
-              { value: '65%+', label: 'Avg. close rate increase' },
+              { value: 'GPT-4o', label: 'AI model used' },
+              { value: '4', label: 'Business templates' },
+              { value: '7 days', label: 'Free trial, no charge' },
             ].map((stat) => (
               <div key={stat.label}>
                 <p className="text-2xl md:text-3xl font-bold text-text-primary mb-1">
@@ -376,8 +351,6 @@ export default function LandingPage() {
               'Agency templates',
               'Contractor templates',
               'Consultant templates',
-              'Deal pipeline',
-              'Client analytics',
             ].map((f) => (
               <span
                 key={f}
@@ -391,49 +364,31 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Testimonials */}
+      {/* Early adopter CTA */}
       <section className="py-24 px-6 border-b border-border/50">
-        <div className="mx-auto max-w-5xl">
-          <div className="text-center mb-14">
-            <p className="text-xs font-semibold uppercase tracking-widest text-accent mb-3">
-              Testimonials
-            </p>
-            <h2 className="text-3xl font-bold text-text-primary mb-3">
-              Trusted by service businesses
-            </h2>
-            <div className="flex items-center justify-center gap-1 mt-2">
-              {[...Array(5)].map((_, i) => (
-                <Star key={i} className="h-4 w-4 text-warning fill-warning" />
-              ))}
-              <span className="ml-2 text-sm text-text-muted">4.9 / 5 average rating</span>
-            </div>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-5">
-            {testimonials.map((t) => (
-              <div
-                key={t.name}
-                className="rounded-2xl border border-border bg-card p-6 flex flex-col gap-4"
-              >
-                <div className="flex items-center gap-1">
-                  {[...Array(5)].map((_, i) => (
-                    <Star key={i} className="h-3 w-3 text-warning fill-warning" />
-                  ))}
-                </div>
-                <p className="text-sm text-text-secondary leading-relaxed flex-1">
-                  &ldquo;{t.quote}&rdquo;
-                </p>
-                <div className="flex items-center gap-3 pt-3 border-t border-border/50">
-                  <div className="flex h-8 w-8 items-center justify-center rounded-full bg-accent/10 flex-shrink-0">
-                    <span className="text-xs font-semibold text-accent">{t.avatar}</span>
-                  </div>
-                  <div>
-                    <p className="text-xs font-semibold text-text-primary">{t.name}</p>
-                    <p className="text-xs text-text-muted">{t.role}</p>
-                  </div>
-                </div>
-              </div>
-            ))}
+        <div className="mx-auto max-w-3xl text-center">
+          <p className="text-xs font-semibold uppercase tracking-widest text-accent mb-3">
+            Early access
+          </p>
+          <h2 className="text-3xl font-bold text-text-primary mb-4">
+            Be among the first to close faster
+          </h2>
+          <p className="text-text-secondary text-sm max-w-lg mx-auto mb-8">
+            LeadFlow is built for freelancers, agencies, contractors, and consultants who are tired of losing deals to slow, unprofessional quotes. Try it free — no risk.
+          </p>
+          <div className="flex flex-wrap items-center justify-center gap-5 text-sm text-text-muted">
+            <span className="flex items-center gap-1.5">
+              <Check className="h-3.5 w-3.5 text-success" />
+              No credit card gymnastics — 7 days free
+            </span>
+            <span className="flex items-center gap-1.5">
+              <Check className="h-3.5 w-3.5 text-success" />
+              Real AI, real proposals
+            </span>
+            <span className="flex items-center gap-1.5">
+              <Check className="h-3.5 w-3.5 text-success" />
+              Cancel anytime
+            </span>
           </div>
         </div>
       </section>
@@ -525,7 +480,7 @@ export default function LandingPage() {
             </span>
           </h2>
           <p className="text-text-secondary text-lg mb-10 max-w-xl mx-auto">
-            Join 500+ freelancers and agencies already closing more deals with LeadFlow.
+            Stop losing deals to slow, unprofessional quotes. Let AI write your proposals in 60 seconds.
           </p>
           <Link href="/signup">
             <Button size="lg" className="gap-2 px-10">
