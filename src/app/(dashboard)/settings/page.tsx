@@ -60,7 +60,7 @@ export default async function SettingsPage() {
             <div className="flex items-center justify-between rounded-lg border border-border bg-surface p-4">
               <div>
                 <div className="flex items-center gap-2 mb-1">
-                  <p className="text-sm font-semibold text-text-primary">LeadFlow Pro</p>
+                  <p className="text-sm font-semibold text-text-primary">LeadFlow</p>
                   <Badge
                     variant={
                       profile?.subscription_status === 'active'
@@ -75,10 +75,10 @@ export default async function SettingsPage() {
                       : profile?.subscription_status || 'inactive'}
                   </Badge>
                 </div>
-                <p className="text-xs text-text-muted">$49 / month</p>
+                <p className="text-xs text-text-muted">$39 / month</p>
               </div>
               <div className="text-right">
-                <p className="text-2xl font-bold text-text-primary">$49</p>
+                <p className="text-2xl font-bold text-text-primary">$39</p>
                 <p className="text-xs text-text-muted">/month</p>
               </div>
             </div>

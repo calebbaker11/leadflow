@@ -8,7 +8,7 @@ import { toast } from 'sonner'
 
 const included = [
   '7-day free trial — no charge today',
-  'Up to 40 proposals per month',
+  '30 high-converting strategic proposals a month',
   'GPT-4o powered generation',
   'PDF export',
   'Shareable proposal links',
@@ -61,7 +61,7 @@ function SubscribeContent() {
             Try LeadFlow free for 7 days
           </h1>
           <p className="text-sm text-text-secondary">
-            Full access during your trial. Then $49/month — cancel anytime.
+            Full access during your trial. Then $39/month — cancel anytime.
           </p>
         </div>
 
@@ -83,7 +83,7 @@ function SubscribeContent() {
               <span className="text-4xl font-bold text-text-primary">$0</span>
               <span className="text-text-muted text-sm">today</span>
             </div>
-            <p className="text-xs text-text-muted">then $49/month after your trial ends</p>
+            <p className="text-xs text-text-muted">then $39/month after your trial ends</p>
           </div>
 
           <ul className="flex flex-col gap-2.5 mb-7">

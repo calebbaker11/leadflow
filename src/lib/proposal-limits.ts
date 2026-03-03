@@ -22,7 +22,7 @@ export async function getProposalUsage(userId: string, supabase: SupabaseClient<
       .eq('user_id', userId)
       .gte('created_at', periodStart)
     const used = count ?? 0
-    return { used, limit: 40, plan: 'paid', canCreate: true, periodEnd: null }
+    return { used, limit: 30, plan: 'paid', canCreate: true, periodEnd: null }
   }
 
   const { data: profile } = await supabase
@@ -66,9 +66,9 @@ export async function getProposalUsage(userId: string, supabase: SupabaseClient<
     const used = count ?? 0
     return {
       used,
-      limit: 40,
+      limit: 30,
       plan: 'paid',
-      canCreate: used < 40,
+      canCreate: used < 30,
       periodEnd: sub?.current_period_end ?? null,
     }
   }

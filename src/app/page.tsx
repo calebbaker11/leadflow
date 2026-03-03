@@ -60,12 +60,23 @@ const steps = [
 
 const includedItems = [
   '7 days free — no charge today',
-  'Up to 40 proposals per month',
+  '30 high-converting strategic proposals a month',
   'GPT-4o powered generation',
   'PDF export',
   'Shareable proposal links',
   'All 4 business templates',
   'Dashboard analytics',
+  'Cancel anytime',
+]
+
+const proItems = [
+  '7 days free — no charge today',
+  '100 high-converting strategic proposals per month',
+  'AI-powered objection detection with built-in counter angles',
+  'Multi-touch follow-up sequences that increase response rates',
+  'Brand voice customization for premium positioning',
+  'Pricing optimization insights that maximize deal value',
+  'Everything in LeadFlow included',
   'Cancel anytime',
 ]
 
@@ -395,63 +406,113 @@ export default function LandingPage() {
 
       {/* Pricing */}
       <section id="pricing" className="py-24 px-6 border-b border-border/50">
-        <div className="mx-auto max-w-lg">
+        <div className="mx-auto max-w-4xl">
           <div className="text-center mb-10">
             <p className="text-xs font-semibold uppercase tracking-widest text-accent mb-3">
               Pricing
             </p>
-            <h2 className="text-3xl font-bold text-text-primary mb-3">Simple pricing</h2>
+            <h2 className="text-3xl font-bold text-text-primary mb-3">Two plans. Built to scale with you.</h2>
             <p className="text-text-secondary text-sm">
-              One plan. Everything included. No surprises.
+              Start free. Upgrade when you're ready to close at a higher level.
             </p>
           </div>
 
-          <div className="rounded-2xl border border-accent/20 bg-card p-8 shadow-glow relative overflow-hidden">
-            <div
-              className="pointer-events-none absolute top-0 inset-x-0 h-px"
-              style={{
-                background:
-                  'linear-gradient(90deg, transparent, rgba(99,102,241,0.6), transparent)',
-              }}
-            />
+          <div className="grid md:grid-cols-2 gap-6">
+            {/* LeadFlow Plan */}
+            <div className="rounded-2xl border border-accent/20 bg-card p-8 relative overflow-hidden flex flex-col">
+              <div
+                className="pointer-events-none absolute top-0 inset-x-0 h-px"
+                style={{
+                  background:
+                    'linear-gradient(90deg, transparent, rgba(99,102,241,0.6), transparent)',
+                }}
+              />
+              <div className="mb-6">
+                <p className="text-xs font-semibold uppercase tracking-widest text-accent mb-3">LeadFlow</p>
+                <div className="flex items-baseline gap-1 mb-2">
+                  <span className="text-5xl font-bold text-text-primary">$39</span>
+                  <span className="text-text-muted text-sm">/month</span>
+                </div>
+                <p className="text-sm text-text-secondary">
+                  For freelancers, agencies, contractors, and consultants
+                </p>
+              </div>
 
-            <div className="text-center mb-8">
-              <div className="inline-flex items-center gap-1.5 rounded-full border border-success/30 bg-success/10 px-3 py-1 mb-4">
-                <span className="text-xs font-semibold text-success">
-                  7-day free trial · No charge today
-                </span>
-              </div>
-              <div className="flex items-baseline justify-center gap-1 mb-2">
-                <span className="text-5xl font-bold text-text-primary">$49</span>
-                <span className="text-text-muted text-sm">/month</span>
-              </div>
-              <p className="text-sm text-text-secondary">
-                For freelancers, agencies, contractors, and consultants
+              <ul className="flex flex-col gap-3 mb-8 flex-1">
+                {includedItems.map((item) => (
+                  <li key={item} className="flex items-center gap-3 text-sm text-text-secondary">
+                    <div className="flex h-5 w-5 items-center justify-center rounded-full bg-accent/10 flex-shrink-0">
+                      <Check className="h-3 w-3 text-accent" />
+                    </div>
+                    {item}
+                  </li>
+                ))}
+              </ul>
+
+              <Link href="/signup" className="block">
+                <Button size="lg" variant="outline" className="w-full">
+                  Start your free trial
+                  <ChevronRight className="h-4 w-4" />
+                </Button>
+              </Link>
+
+              <p className="text-center text-xs text-text-muted mt-4">
+                Card required. No charge for 7 days. Cancel anytime.
               </p>
             </div>
 
-            <ul className="flex flex-col gap-3 mb-8">
-              {includedItems.map((item) => (
-                <li key={item} className="flex items-center gap-3 text-sm text-text-secondary">
-                  <div className="flex h-5 w-5 items-center justify-center rounded-full bg-accent/10 flex-shrink-0">
-                    <Check className="h-3 w-3 text-accent" />
-                  </div>
-                  {item}
-                </li>
-              ))}
-            </ul>
+            {/* LeadFlow Pro Plan */}
+            <div className="rounded-2xl border border-accent/40 bg-card p-8 shadow-glow relative overflow-hidden flex flex-col">
+              <div
+                className="pointer-events-none absolute top-0 inset-x-0 h-px"
+                style={{
+                  background:
+                    'linear-gradient(90deg, transparent, rgba(99,102,241,0.9), transparent)',
+                }}
+              />
+              <div className="mb-6">
+                <div className="flex items-center gap-2 mb-3">
+                  <p className="text-xs font-semibold uppercase tracking-widest text-accent">LeadFlow Pro</p>
+                  <span className="rounded-full border border-accent/20 bg-accent/10 px-2 py-0.5 text-xs font-semibold text-accent">
+                    Most powerful
+                  </span>
+                </div>
+                <div className="flex items-baseline gap-1 mb-2">
+                  <span className="text-5xl font-bold text-text-primary">$99</span>
+                  <span className="text-text-muted text-sm">/month</span>
+                </div>
+                <p className="text-sm text-text-secondary">
+                  Advanced sales optimization designed for serious closers
+                </p>
+              </div>
 
-            <Link href="/signup" className="block">
-              <Button size="lg" className="w-full">
-                Start your free trial
-                <ChevronRight className="h-4 w-4" />
-              </Button>
-            </Link>
+              <ul className="flex flex-col gap-3 mb-8 flex-1">
+                {proItems.map((item) => (
+                  <li key={item} className="flex items-center gap-3 text-sm text-text-secondary">
+                    <div className="flex h-5 w-5 items-center justify-center rounded-full bg-accent/10 flex-shrink-0">
+                      <Check className="h-3 w-3 text-accent" />
+                    </div>
+                    {item}
+                  </li>
+                ))}
+              </ul>
 
-            <p className="text-center text-xs text-text-muted mt-4">
-              Card required. No charge for 7 days. Cancel anytime.
-            </p>
+              <Link href="/signup" className="block">
+                <Button size="lg" className="w-full">
+                  Start your free trial
+                  <ChevronRight className="h-4 w-4" />
+                </Button>
+              </Link>
+
+              <p className="text-center text-xs text-text-muted mt-4">
+                Card required. No charge for 7 days. Cancel anytime.
+              </p>
+            </div>
           </div>
+
+          <p className="text-center text-xs text-text-muted mt-8 max-w-xl mx-auto">
+            Pro isn&apos;t just about generating proposals — it&apos;s about engineering higher close rates and accelerating predictable revenue.
+          </p>
         </div>
       </section>
 
