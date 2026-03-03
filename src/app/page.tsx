@@ -101,7 +101,7 @@ export default function LandingPage() {
       <nav className="fixed top-0 inset-x-0 z-50 border-b border-border/50 bg-background/80 backdrop-blur-sm">
         <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-6">
           <div className="flex items-center">
-            <img src="/logo.svg" alt="LeadFlow" className="h-6" />
+            <img src="/logo.svg" alt="LeadFlow" className="h-8" />
           </div>
           <div className="flex items-center gap-6">
             <Link
@@ -543,7 +543,7 @@ export default function LandingPage() {
           <div className="flex flex-col md:flex-row items-start justify-between gap-10 mb-10">
             <div>
               <div className="flex items-center mb-3">
-                <img src="/logo.svg" alt="LeadFlow" className="h-6" />
+                <img src="/logo.svg" alt="LeadFlow" className="h-8" />
               </div>
               <p className="text-xs text-text-muted max-w-xs leading-relaxed">
                 AI-powered proposal generation for freelancers, agencies, contractors, and
