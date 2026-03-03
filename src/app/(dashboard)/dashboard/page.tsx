@@ -1,6 +1,8 @@
 import { createClient } from '@/lib/supabase/server'
 import { Topbar } from '@/components/layout/topbar'
 import { StatsCard } from '@/components/dashboard/stats-card'
+import { ProposalChart } from '@/components/dashboard/proposal-chart'
+import type { MonthlyDataPoint } from '@/components/dashboard/proposal-chart'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent } from '@/components/ui/card'
@@ -17,6 +19,26 @@ const statusVariant: Record<string, 'default' | 'success' | 'warning' | 'danger'
 }
 const statusLabel: Record<string, string> = {
   draft: 'Draft', sent: 'Sent', accepted: 'Accepted', declined: 'Declined',
+}
+
+function buildMonthlyChartData(proposals: Proposal[], months: number): MonthlyDataPoint[] {
+  const now = new Date()
+  return Array.from({ length: months }, (_, i) => {
+    const d = new Date(now.getFullYear(), now.getMonth() - (months - 1 - i), 1)
+    const nextMonth = new Date(d.getFullYear(), d.getMonth() + 1, 1)
+    const label = d.toLocaleString('default', { month: 'short' })
+    const inMonth = proposals.filter(p => {
+      const t = new Date(p.created_at).getTime()
+      return t >= d.getTime() && t < nextMonth.getTime()
+    })
+    return {
+      month: label,
+      draft:    inMonth.filter(p => p.status === 'draft').length,
+      sent:     inMonth.filter(p => p.status === 'sent').length,
+      accepted: inMonth.filter(p => p.status === 'accepted').length,
+      declined: inMonth.filter(p => p.status === 'declined').length,
+    }
+  })
 }
 
 export default async function DashboardPage() {
@@ -38,7 +60,6 @@ export default async function DashboardPage() {
   const accepted = proposals.filter(p => p.status === 'accepted').length
   const declined = proposals.filter(p => p.status === 'declined').length
 
-  // Close rate = accepted ÷ all proposals ever sent out (sent + accepted + declined)
   const everSent  = sent + accepted + declined
   const closeRate = everSent > 0 ? Math.round((accepted / everSent) * 100) : 0
 
@@ -67,6 +88,7 @@ export default async function DashboardPage() {
   ).length
 
   const recent = proposals.slice(0, 6)
+  const chartData = buildMonthlyChartData(proposals, 6)
 
   const pipelineItems = [
     { status: 'draft',    count: drafts,   icon: FileText,    value: null         },
@@ -121,6 +143,33 @@ export default async function DashboardPage() {
             description={sent > 0 ? `${sent} awaiting response` : 'No open proposals'}
           />
         </div>
+
+        {/* Proposal activity chart */}
+        <Card>
+          <CardContent className="p-5">
+            <div className="flex items-center justify-between mb-4">
+              <div>
+                <h2 className="text-sm font-semibold text-text-primary">Proposal Activity</h2>
+                <p className="text-xs text-text-muted mt-0.5">Proposals created per month</p>
+              </div>
+              <div className="flex items-center gap-3 text-[11px] text-text-muted">
+                <span className="flex items-center gap-1.5">
+                  <span className="h-2 w-2 rounded-full bg-accent inline-block" />Sent
+                </span>
+                <span className="flex items-center gap-1.5">
+                  <span className="h-2 w-2 rounded-full bg-success inline-block" />Accepted
+                </span>
+                <span className="flex items-center gap-1.5">
+                  <span className="h-2 w-2 rounded-full bg-danger inline-block" />Declined
+                </span>
+                <span className="flex items-center gap-1.5">
+                  <span className="h-2 w-2 rounded-full bg-border inline-block" />Draft
+                </span>
+              </div>
+            </div>
+            <ProposalChart data={chartData} />
+          </CardContent>
+        </Card>
 
         {/* Pipeline breakdown */}
         {total > 0 && (

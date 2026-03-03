@@ -86,6 +86,7 @@ export default function ProposalDetailPage() {
       const data = await res.json()
       setProposal(data.proposal)
       toast.success(`Status updated to ${status}`)
+      router.refresh()
     }
   }
 
