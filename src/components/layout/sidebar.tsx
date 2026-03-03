@@ -7,7 +7,6 @@ import {
   LayoutDashboard,
   FileText,
   Settings,
-  Zap,
   LogOut,
 } from 'lucide-react'
 import { createClient } from '@/lib/supabase/client'
@@ -42,11 +41,8 @@ export function Sidebar({ usage }: SidebarProps) {
   return (
     <aside className="flex h-screen w-60 flex-col border-r border-border bg-surface">
       {/* Logo */}
-      <div className="flex h-16 items-center gap-2.5 px-5 border-b border-border">
-        <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-accent/10">
-          <Zap className="h-4 w-4 text-accent" />
-        </div>
-        <span className="text-sm font-semibold text-text-primary tracking-tight">LeadFlow</span>
+      <div className="flex h-16 items-center px-5 border-b border-border">
+        <img src="/logo.svg" alt="LeadFlow" className="h-6" />
       </div>
 
       {/* Navigation */}

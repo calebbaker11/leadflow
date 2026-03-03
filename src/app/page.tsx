@@ -2,7 +2,6 @@ import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import {
   ArrowRight,
-  Zap,
   FileText,
   Share2,
   TrendingUp,
@@ -101,11 +100,8 @@ export default function LandingPage() {
       {/* Navigation */}
       <nav className="fixed top-0 inset-x-0 z-50 border-b border-border/50 bg-background/80 backdrop-blur-sm">
         <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-6">
-          <div className="flex items-center gap-2">
-            <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-accent/10">
-              <Zap className="h-3.5 w-3.5 text-accent" />
-            </div>
-            <span className="text-sm font-semibold text-text-primary">LeadFlow</span>
+          <div className="flex items-center">
+            <img src="/logo.svg" alt="LeadFlow" className="h-6" />
           </div>
           <div className="flex items-center gap-6">
             <Link
@@ -546,11 +542,8 @@ export default function LandingPage() {
         <div className="mx-auto max-w-6xl">
           <div className="flex flex-col md:flex-row items-start justify-between gap-10 mb-10">
             <div>
-              <div className="flex items-center gap-2 mb-3">
-                <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-accent/10">
-                  <Zap className="h-3.5 w-3.5 text-accent" />
-                </div>
-                <span className="text-sm font-semibold text-text-primary">LeadFlow</span>
+              <div className="flex items-center mb-3">
+                <img src="/logo.svg" alt="LeadFlow" className="h-6" />
               </div>
               <p className="text-xs text-text-muted max-w-xs leading-relaxed">
                 AI-powered proposal generation for freelancers, agencies, contractors, and
