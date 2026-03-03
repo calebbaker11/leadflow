@@ -60,7 +60,7 @@ const steps = [
 
 const includedItems = [
   '7 days free — no charge today',
-  'Up to 30 proposals per month',
+  'Up to 40 proposals per month',
   'GPT-4o powered generation',
   'PDF export',
   'Shareable proposal links',

@@ -8,7 +8,7 @@ import { toast } from 'sonner'
 
 const included = [
   '7-day free trial — no charge today',
-  'Up to 30 proposals per month',
+  'Up to 40 proposals per month',
   'GPT-4o powered generation',
   'PDF export',
   'Shareable proposal links',
