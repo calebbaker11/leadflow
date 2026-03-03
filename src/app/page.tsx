@@ -13,7 +13,7 @@ import {
 
 const features = [
   {
-    icon: Zap,
+    icon: Sparkles,
     title: 'Generate in seconds',
     description:
       'Describe the project, hit generate. GPT-4o writes a complete, professional proposal — scoped, priced, and ready to send.',
