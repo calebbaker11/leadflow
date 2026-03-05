@@ -4,6 +4,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
+import { loginAction } from '@/app/actions/auth'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { toast } from 'sonner'
@@ -41,9 +42,9 @@ export default function SignupPage() {
       return
     }
 
-    // Sign in immediately after signup to ensure a session cookie is established
-    // (signUp alone may not create a session if email confirmation is enabled)
-    const { error: signInError } = await supabase.auth.signInWithPassword({ email, password })
+    // Sign in via server action so the session is written as proper server-side
+    // cookies that getUser() in API route handlers can reliably verify
+    const signInError = await loginAction(email, password)
 
     if (signInError) {
       toast.error('Account created! Please sign in to continue.')
