@@ -43,8 +43,7 @@ function buildMonthlyChartData(proposals: Proposal[], months: number): MonthlyDa
 
 export default async function DashboardPage() {
   const supabase = createClient()
-  const { data: { session } } = await supabase.auth.getSession()
-  const user = session!.user
+  const { data: { user } } = await supabase.auth.getUser()
 
   const { data } = await supabase
     .from('proposals')

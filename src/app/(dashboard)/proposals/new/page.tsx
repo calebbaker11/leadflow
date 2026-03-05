@@ -9,8 +9,7 @@ import { formatDate } from '@/lib/utils'
 
 export default async function NewProposalPage() {
   const supabase = createClient()
-  const { data: { session } } = await supabase.auth.getSession()
-  const user = session!.user
+  const { data: { user } } = await supabase.auth.getUser()
 
   const usage = await getProposalUsage(user.id, supabase)
 

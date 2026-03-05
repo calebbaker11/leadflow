@@ -72,7 +72,7 @@ export default async function ProposalsPage() {
                 <Card hover>
                   <CardContent className="flex items-center gap-4 p-4">
                     <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-surface flex-shrink-0">
-                      <FileText className="h-4.5 w-4.5 text-text-muted" />
+                      <FileText className="h-4 w-4 text-text-muted" />
                     </div>
 
                     <div className="flex-1 min-w-0">
