@@ -41,9 +41,18 @@ export default function SignupPage() {
       return
     }
 
-    // Redirect to subscribe page after signup
-    router.push('/subscribe')
-    router.refresh()
+    // Sign in immediately after signup to ensure a session cookie is established
+    // (signUp alone may not create a session if email confirmation is enabled)
+    const { error: signInError } = await supabase.auth.signInWithPassword({ email, password })
+
+    if (signInError) {
+      toast.error('Account created! Please sign in to continue.')
+      router.push('/login')
+      return
+    }
+
+    // Hard redirect so middleware runs fresh and picks up the new session cookies
+    window.location.href = '/subscribe'
   }
 
   return (
