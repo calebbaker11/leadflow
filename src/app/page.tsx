@@ -59,8 +59,8 @@ const steps = [
 ]
 
 const includedItems = [
-  '7 days free — no charge today',
-  '30 high-converting strategic proposals a month',
+  '7-day free trial — 5 proposals included',
+  '30 proposals per month after trial',
   'GPT-4o powered generation',
   'PDF export',
   'Shareable proposal links',
@@ -70,8 +70,8 @@ const includedItems = [
 ]
 
 const proItems = [
-  '7 days free — no charge today',
-  '100 high-converting strategic proposals per month',
+  '7-day free trial — 5 proposals included',
+  '100 proposals per month after trial',
   'AI-powered objection detection with built-in counter angles',
   'Multi-touch follow-up sequences that increase response rates',
   'Brand voice customization for premium positioning',
@@ -478,7 +478,7 @@ export default function LandingPage() {
                   </span>
                 </div>
                 <div className="flex items-baseline gap-1 mb-2">
-                  <span className="text-5xl font-bold text-text-primary">$99</span>
+                  <span className="text-5xl font-bold text-text-primary">$89</span>
                   <span className="text-text-muted text-sm">/month</span>
                 </div>
                 <p className="text-sm text-text-secondary">

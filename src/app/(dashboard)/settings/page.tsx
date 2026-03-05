@@ -26,7 +26,7 @@ export default async function SettingsPage() {
 
   const isProPlan = subscription?.stripe_price_id === process.env.STRIPE_PRO_PRICE_ID
   const planName = isProPlan ? 'LeadFlow Pro' : 'LeadFlow Base'
-  const planPrice = isProPlan ? '$99' : '$39'
+  const planPrice = isProPlan ? '$89' : '$39'
 
   return (
     <div className="flex flex-col">
