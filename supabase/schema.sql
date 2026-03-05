@@ -15,9 +15,13 @@ create table public.profiles (
   stripe_customer_id text unique,
   subscription_status text default 'inactive'
     check (subscription_status in ('active', 'inactive', 'past_due', 'canceled', 'trialing')),
+  brand_voice text,
   created_at timestamptz default now(),
   updated_at timestamptz default now()
 );
+
+-- Migration: add brand_voice to existing databases
+-- alter table public.profiles add column if not exists brand_voice text;
 
 -- ============================================================
 -- PROPOSALS TABLE

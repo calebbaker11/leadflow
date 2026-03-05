@@ -76,7 +76,7 @@ const proItems = [
   'Multi-touch follow-up sequences that increase response rates',
   'Brand voice customization for premium positioning',
   'Pricing optimization insights that maximize deal value',
-  'Everything in LeadFlow included',
+  'Everything in LeadFlow Base included',
   'Cancel anytime',
 ]
 
@@ -428,7 +428,7 @@ export default function LandingPage() {
                 }}
               />
               <div className="mb-6">
-                <p className="text-xs font-semibold uppercase tracking-widest text-accent mb-3">LeadFlow</p>
+                <p className="text-xs font-semibold uppercase tracking-widest text-accent mb-3">LeadFlow Base</p>
                 <div className="flex items-baseline gap-1 mb-2">
                   <span className="text-5xl font-bold text-text-primary">$39</span>
                   <span className="text-text-muted text-sm">/month</span>
@@ -497,7 +497,7 @@ export default function LandingPage() {
                 ))}
               </ul>
 
-              <Link href="/signup" className="block">
+              <Link href="/subscribe/pro" className="block">
                 <Button size="lg" className="w-full">
                   Start your free trial
                   <ChevronRight className="h-4 w-4" />

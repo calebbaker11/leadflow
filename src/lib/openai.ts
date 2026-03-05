@@ -20,6 +20,7 @@ export async function generateProposal({
   price,
   timeline,
   additionalNotes,
+  brandVoice,
 }: {
   clientName: string
   businessType: string
@@ -28,10 +29,12 @@ export async function generateProposal({
   price: string
   timeline: string
   additionalNotes?: string
+  brandVoice?: string
 }) {
   const providerContext = templateContext[templateType]
 
   const prompt = `You are an expert business proposal writer. Generate a compelling, professional business proposal for ${providerContext}.
+${brandVoice ? `\nBRAND VOICE & TONE:\n${brandVoice}\nApply this voice and tone throughout the entire proposal.\n` : ''}
 
 CLIENT INFORMATION:
 - Client Name: ${clientName}

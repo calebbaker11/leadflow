@@ -19,7 +19,7 @@ export async function POST(request: Request) {
   // Verify active subscription before consuming OpenAI credits
   const { data: profile } = await supabase
     .from('profiles')
-    .select('subscription_status')
+    .select('subscription_status, brand_voice')
     .eq('id', user.id)
     .single()
 
@@ -66,6 +66,7 @@ export async function POST(request: Request) {
       price,
       timeline,
       additionalNotes: additional_notes,
+      brandVoice: profile.brand_voice ?? undefined,
     })
 
     // Update existing proposal

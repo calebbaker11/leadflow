@@ -3,9 +3,9 @@ import type { SupabaseClient } from '@supabase/supabase-js'
 export interface ProposalUsage {
   used: number
   limit: number
-  plan: 'trial' | 'paid' | 'none'
+  plan: 'trial' | 'paid' | 'pro' | 'none'
   canCreate: boolean
-  /** ISO string of when the billing period resets (paid plan only) */
+  /** ISO string of when the billing period resets (paid/pro plan only) */
   periodEnd: string | null
 }
 
@@ -47,11 +47,13 @@ export async function getProposalUsage(userId: string, supabase: SupabaseClient<
   if (status === 'active') {
     const { data: sub } = await supabase
       .from('subscriptions')
-      .select('current_period_start, current_period_end')
+      .select('current_period_start, current_period_end, stripe_price_id')
       .eq('user_id', userId)
       .order('created_at', { ascending: false })
       .limit(1)
       .maybeSingle()
+
+    const isProPlan = sub?.stripe_price_id === process.env.STRIPE_PRO_PRICE_ID
 
     const periodStart =
       sub?.current_period_start ??
@@ -64,11 +66,13 @@ export async function getProposalUsage(userId: string, supabase: SupabaseClient<
       .gte('created_at', periodStart)
 
     const used = count ?? 0
+    const limit = isProPlan ? 100 : 30
+
     return {
       used,
-      limit: 30,
-      plan: 'paid',
-      canCreate: used < 30,
+      limit,
+      plan: isProPlan ? 'pro' : 'paid',
+      canCreate: used < limit,
       periodEnd: sub?.current_period_end ?? null,
     }
   }

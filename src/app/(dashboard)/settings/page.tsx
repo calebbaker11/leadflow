@@ -3,6 +3,7 @@ import { Topbar } from '@/components/layout/topbar'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { BillingButton } from './billing-button'
+import { BrandVoiceForm } from './brand-voice-form'
 import { formatDate } from '@/lib/utils'
 
 export default async function SettingsPage() {
@@ -22,6 +23,10 @@ export default async function SettingsPage() {
     .order('created_at', { ascending: false })
     .limit(1)
     .maybeSingle()
+
+  const isProPlan = subscription?.stripe_price_id === process.env.STRIPE_PRO_PRICE_ID
+  const planName = isProPlan ? 'LeadFlow Pro' : 'LeadFlow Base'
+  const planPrice = isProPlan ? '$99' : '$39'
 
   return (
     <div className="flex flex-col">
@@ -60,7 +65,7 @@ export default async function SettingsPage() {
             <div className="flex items-center justify-between rounded-lg border border-border bg-surface p-4">
               <div>
                 <div className="flex items-center gap-2 mb-1">
-                  <p className="text-sm font-semibold text-text-primary">LeadFlow</p>
+                  <p className="text-sm font-semibold text-text-primary">{planName}</p>
                   <Badge
                     variant={
                       profile?.subscription_status === 'active'
@@ -75,10 +80,10 @@ export default async function SettingsPage() {
                       : profile?.subscription_status || 'inactive'}
                   </Badge>
                 </div>
-                <p className="text-xs text-text-muted">$39 / month</p>
+                <p className="text-xs text-text-muted">{planPrice} / month</p>
               </div>
               <div className="text-right">
-                <p className="text-2xl font-bold text-text-primary">$39</p>
+                <p className="text-2xl font-bold text-text-primary">{planPrice}</p>
                 <p className="text-xs text-text-muted">/month</p>
               </div>
             </div>
@@ -109,6 +114,21 @@ export default async function SettingsPage() {
             <BillingButton hasCustomer={!!profile?.stripe_customer_id} />
           </CardContent>
         </Card>
+
+        {/* Brand Voice — Pro only */}
+        {isProPlan && (
+          <Card>
+            <CardHeader>
+              <CardTitle>Brand Voice</CardTitle>
+              <CardDescription>
+                Describe your tone and style. LeadFlow Pro will apply it to every proposal you generate.
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <BrandVoiceForm initialValue={profile?.brand_voice ?? null} />
+            </CardContent>
+          </Card>
+        )}
       </div>
     </div>
   )

@@ -5,17 +5,20 @@ export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
 })
 
 export const STRIPE_PRICE_ID = process.env.STRIPE_PRICE_ID!
+export const STRIPE_PRO_PRICE_ID = process.env.STRIPE_PRO_PRICE_ID!
 
 export async function createCheckoutSession({
   customerId,
   customerEmail,
   userId,
+  priceId,
   successUrl,
   cancelUrl,
 }: {
   customerId?: string
   customerEmail: string
   userId: string
+  priceId?: string
   successUrl: string
   cancelUrl: string
 }) {
@@ -24,7 +27,7 @@ export async function createCheckoutSession({
     payment_method_types: ['card'],
     line_items: [
       {
-        price: STRIPE_PRICE_ID,
+        price: priceId ?? STRIPE_PRICE_ID,
         quantity: 1,
       },
     ],

@@ -23,6 +23,10 @@ export async function middleware(request: NextRequest) {
     }
   )
 
+  // Required: refreshes the session and writes updated auth cookies back to the response.
+  // Without this, getUser() in API routes and Server Components will always return null.
+  await supabase.auth.getUser()
+
   return supabaseResponse
 }
 

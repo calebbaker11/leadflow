@@ -12,6 +12,7 @@ import type { Proposal, ProposalFormData } from '@/types'
 import { toast } from 'sonner'
 import { Printer, Link2, Trash2, RefreshCw } from 'lucide-react'
 import { generateShareUrl } from '@/lib/utils'
+import { ProFeaturesPanel } from '@/components/proposals/pro-features-panel'
 
 const statusOptions = [
   { value: 'draft', label: 'Draft' },
@@ -187,6 +188,10 @@ export default function ProposalDetailPage() {
             }}
             onGenerate={handleRegenerate}
             loading={generating}
+          />
+          <ProFeaturesPanel
+            proposalId={id}
+            hasProposalText={!!proposal.generated_proposal_text}
           />
         </div>
 

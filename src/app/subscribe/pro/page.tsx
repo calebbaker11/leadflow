@@ -3,29 +3,29 @@
 import { useState, Suspense } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { Button } from '@/components/ui/button'
-import { Check, AlertCircle } from 'lucide-react'
+import { Check, AlertCircle, Zap } from 'lucide-react'
 import { toast } from 'sonner'
 
-const included = [
+const proFeatures = [
   '7-day free trial — no charge today',
-  '30 high-converting strategic proposals a month',
-  'GPT-4o powered generation',
-  'PDF export',
-  'Shareable proposal links',
-  'Freelancer, Agency, Contractor & Consultant templates',
-  'Proposal pipeline & analytics',
+  '100 proposals per month',
+  'Everything in LeadFlow Base ($39/month plan)',
+  'AI objection detection & suggested responses',
+  'Multi-touch follow-up email sequences',
+  'Brand voice customization',
+  'Pricing optimization insights',
   'Cancel anytime',
 ]
 
-export default function SubscribePage() {
+export default function SubscribeProPage() {
   return (
     <Suspense>
-      <SubscribeContent />
+      <SubscribeProContent />
     </Suspense>
   )
 }
 
-function SubscribeContent() {
+function SubscribeProContent() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const canceled = searchParams.get('canceled')
@@ -35,7 +35,11 @@ function SubscribeContent() {
     setLoading(true)
 
     try {
-      const res = await fetch('/api/stripe/checkout', { method: 'POST' })
+      const res = await fetch('/api/stripe/checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ plan: 'pro' }),
+      })
       const data = await res.json()
 
       if (!res.ok) {
@@ -57,11 +61,15 @@ function SubscribeContent() {
 
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
+          <div className="inline-flex items-center gap-1.5 rounded-full border border-accent/30 bg-accent/10 px-3 py-1 mb-3">
+            <Zap className="h-3 w-3 text-accent" />
+            <span className="text-xs font-semibold text-accent">LeadFlow Pro</span>
+          </div>
           <h1 className="text-2xl font-bold text-text-primary mb-2">
-            Try LeadFlow Base free for 7 days
+            Try LeadFlow Pro free for 7 days
           </h1>
           <p className="text-sm text-text-secondary">
-            Full access during your trial. Then $39/month — cancel anytime.
+            Full Pro access during your trial. Then $99/month — cancel anytime.
           </p>
         </div>
 
@@ -74,7 +82,14 @@ function SubscribeContent() {
           </div>
         )}
 
-        <div className="rounded-2xl border border-accent/20 bg-card p-8 shadow-glow">
+        <div className="rounded-2xl border border-accent/40 bg-card p-8 shadow-glow relative overflow-hidden">
+          <div
+            className="pointer-events-none absolute top-0 inset-x-0 h-px"
+            style={{
+              background:
+                'linear-gradient(90deg, transparent, rgba(99,102,241,0.9), transparent)',
+            }}
+          />
           <div className="text-center mb-6">
             <div className="inline-flex items-center gap-1.5 rounded-full border border-success/30 bg-success/10 px-3 py-1 mb-3">
               <span className="text-xs font-semibold text-success">7-day free trial</span>
@@ -83,11 +98,11 @@ function SubscribeContent() {
               <span className="text-4xl font-bold text-text-primary">$0</span>
               <span className="text-text-muted text-sm">today</span>
             </div>
-            <p className="text-xs text-text-muted">then $39/month after your trial ends</p>
+            <p className="text-xs text-text-muted">then $99/month after your trial ends</p>
           </div>
 
           <ul className="flex flex-col gap-2.5 mb-7">
-            {included.map((item) => (
+            {proFeatures.map((item) => (
               <li key={item} className="flex items-center gap-2.5 text-sm text-text-secondary">
                 <div className="flex h-4 w-4 items-center justify-center rounded-full bg-accent/10 flex-shrink-0">
                   <Check className="h-2.5 w-2.5 text-accent" />
@@ -103,7 +118,7 @@ function SubscribeContent() {
             size="lg"
             className="w-full"
           >
-            Start free trial
+            Start free Pro trial
           </Button>
 
           <p className="text-center text-xs text-text-muted mt-4">
@@ -111,15 +126,26 @@ function SubscribeContent() {
           </p>
         </div>
 
-        <p className="text-center text-xs text-text-muted mt-6">
-          Already subscribed?{' '}
-          <button
-            onClick={() => router.push('/dashboard')}
-            className="text-accent hover:text-accent-hover transition-colors"
-          >
-            Go to dashboard
-          </button>
-        </p>
+        <div className="text-center mt-6 flex flex-col gap-2">
+          <p className="text-xs text-text-muted">
+            Want the standard plan instead?{' '}
+            <button
+              onClick={() => router.push('/subscribe')}
+              className="text-accent hover:text-accent-hover transition-colors"
+            >
+              View LeadFlow Base ($39/month)
+            </button>
+          </p>
+          <p className="text-xs text-text-muted">
+            Already subscribed?{' '}
+            <button
+              onClick={() => router.push('/dashboard')}
+              className="text-accent hover:text-accent-hover transition-colors"
+            >
+              Go to dashboard
+            </button>
+          </p>
+        </div>
       </div>
     </div>
   )
