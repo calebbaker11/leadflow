@@ -1,16 +1,19 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 178 40" fill="none">
-  <!-- Bar 1 (short) -->
-  <rect x="0" y="22" width="8" height="16" rx="2" fill="#6366f1"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 68" fill="none">
+  <!-- Swoosh: C-bracket wrapping bars on left/bottom -->
+  <path d="M 7,22 C -6,44 9,67 52,62" stroke="#6366f1" stroke-width="5.5" stroke-linecap="round" fill="none"/>
+
+  <!-- Bar 1 (short, leftmost) -->
+  <rect x="14" y="40" width="10" height="22" rx="1.5" fill="#6366f1"/>
   <!-- Bar 2 (medium) -->
-  <rect x="12" y="13" width="8" height="25" rx="2" fill="#6366f1"/>
-  <!-- Bar 3 (tall) -->
-  <rect x="24" y="4" width="8" height="34" rx="2" fill="#6366f1"/>
-  <!-- Arrow: diagonal shaft from bar 3 top going up-right -->
-  <line x1="28" y1="6" x2="38" y2="0" stroke="#6366f1" stroke-width="2.5" stroke-linecap="round"/>
+  <rect x="27" y="30" width="10" height="32" rx="1.5" fill="#6366f1"/>
+  <!-- Bar 3 (tall, rightmost) -->
+  <rect x="40" y="20" width="11" height="42" rx="1.5" fill="#6366f1"/>
+
+  <!-- Arrow shaft -->
+  <line x1="45.5" y1="20" x2="45.5" y2="6" stroke="#6366f1" stroke-width="5" stroke-linecap="round"/>
   <!-- Arrow head -->
-  <polyline points="31,0 38,0 38,7" stroke="#6366f1" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-  <!-- Swoosh arc at bottom -->
-  <path d="M0 38 Q16 33 32 38" stroke="#6366f1" stroke-width="1.8" stroke-linecap="round" fill="none" opacity="0.5"/>
+  <polygon points="45.5,0 37,13 54,13" fill="#6366f1"/>
+
   <!-- LeadFlow text -->
-  <text x="50" y="30" font-family="Inter, system-ui, -apple-system, sans-serif" font-size="22" font-weight="800" fill="#4f46e5" letter-spacing="-0.5">LeadFlow</text>
+  <text x="72" y="47" font-family="Inter, system-ui, -apple-system, sans-serif" font-size="28" font-weight="700" fill="#c8cadc" letter-spacing="-0.3">LeadFlow</text>
 </svg>
