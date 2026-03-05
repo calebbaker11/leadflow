@@ -1,23 +1,42 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 140">
-  <!-- Swoosh: filled crescent, sweeps from thin upper-left tip to thick rounded lower-right -->
-  <path d="M 8,64 C -16,80 -12,114 42,136 C 54,142 66,140 65,130 C 50,128 26,118 16,106 C 6,92 8,74 14,66 Z"
-        fill="#6366f1"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 510 138">
+  <!--
+    Icon layout (x:0–90, y:0–138):
+    - Swoosh: filled crescent, thin tip upper-left → thick rounded end lower-right
+    - 3 bars of increasing height, bottom-aligned at y=128
+    - Arrow shaft (same width as bar 3) + wide arrowhead above bar 3
+    - White 2px separators between bar columns
+  -->
+
+  <!-- Swoosh: filled crescent. All coords kept within viewBox. -->
+  <path d="
+    M 20,55
+    C -5,70 -5,100 32,116
+    C 42,124 56,126 64,120
+    Q 70,114 63,108
+    C 52,116 36,114 26,106
+    C 22,98 22,78 26,58
+    Z"
+    fill="#6366f1"/>
 
   <!-- Bar 1 (short) -->
-  <rect x="16" y="94" width="15" height="38" fill="#6366f1"/>
+  <rect x="22" y="88" width="14" height="40" fill="#6366f1"/>
+
   <!-- Bar 2 (medium) -->
-  <rect x="33" y="76" width="15" height="56" fill="#6366f1"/>
-  <!-- Bar 3 (tall) -->
-  <rect x="50" y="55" width="16" height="77" fill="#6366f1"/>
+  <rect x="38" y="70" width="14" height="58" fill="#6366f1"/>
 
-  <!-- Arrow shaft (same width as bar 3) -->
-  <rect x="50" y="24" width="16" height="31" fill="#6366f1"/>
+  <!-- Bar 3 (tall) + arrow shaft as one element -->
+  <rect x="54" y="20" width="16" height="108" fill="#6366f1"/>
 
-  <!-- Arrow head (wide triangle) -->
-  <polygon points="58,2 36,26 80,26" fill="#6366f1"/>
+  <!-- Arrow head (wide triangle, same tip x as bar-3 center) -->
+  <polygon points="62,4 41,20 83,20" fill="#6366f1"/>
 
-  <!-- LeadFlow text in white -->
-  <text x="112" y="100"
+  <!-- White separators between bars (drawn on top) -->
+  <rect x="36" y="70" width="2" height="58" fill="white"/>
+  <rect x="52" y="20" width="2" height="108" fill="white"/>
+
+  <!-- LeadFlow wordmark -->
+  <text x="105" y="97"
         font-family="Inter, system-ui, -apple-system, sans-serif"
-        font-size="64" font-weight="700" fill="#ffffff" letter-spacing="-0.5">LeadFlow</text>
+        font-size="62" font-weight="700"
+        fill="#f8f8f8" letter-spacing="-0.5">LeadFlow</text>
 </svg>
