@@ -1,4 +1,5 @@
 import { createClient } from '@/lib/supabase/server'
+import { redirect } from 'next/navigation'
 import { Topbar } from '@/components/layout/topbar'
 import { StatsCard } from '@/components/dashboard/stats-card'
 import { ProposalChart } from '@/components/dashboard/proposal-chart'
@@ -44,6 +45,7 @@ function buildMonthlyChartData(proposals: Proposal[], months: number): MonthlyDa
 export default async function DashboardPage() {
   const supabase = createClient()
   const { data: { user } } = await supabase.auth.getUser()
+  if (!user) redirect('/login')
 
   const { data } = await supabase
     .from('proposals')

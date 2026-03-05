@@ -1,4 +1,5 @@
 import { createClient } from '@/lib/supabase/server'
+import { redirect } from 'next/navigation'
 import { getProposalUsage } from '@/lib/proposal-limits'
 import { NewProposalClient } from '@/components/proposals/new-proposal-client'
 import { Button } from '@/components/ui/button'
@@ -10,6 +11,7 @@ import { formatDate } from '@/lib/utils'
 export default async function NewProposalPage() {
   const supabase = createClient()
   const { data: { user } } = await supabase.auth.getUser()
+  if (!user) redirect('/login')
 
   const usage = await getProposalUsage(user.id, supabase)
 
