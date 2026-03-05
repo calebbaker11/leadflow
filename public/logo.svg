@@ -1,42 +1,40 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 510 138">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 535 148" fill="none">
   <!--
-    Icon layout (x:0–90, y:0–138):
-    - Swoosh: filled crescent, thin tip upper-left → thick rounded end lower-right
-    - 3 bars of increasing height, bottom-aligned at y=128
-    - Arrow shaft (same width as bar 3) + wide arrowhead above bar 3
-    - White 2px separators between bar columns
+    Icon: 3 stacked L-shaped pages, fanning clockwise from bottom-left pivot.
+    Back page (darkest) → front page (lightest with stroke).
   -->
 
-  <!-- Swoosh: filled crescent. All coords kept within viewBox. -->
-  <path d="
-    M 20,55
-    C -5,70 -5,100 32,116
-    C 42,124 56,126 64,120
-    Q 70,114 63,108
-    C 52,116 36,114 26,106
-    C 22,98 22,78 26,58
-    Z"
-    fill="#6366f1"/>
+  <!-- Back page -->
+  <path
+    d="M22 132 L22 16 Q22 6 32 6 L80 6 Q91 6 90 17 L78 82 L108 82 L108 132 Z"
+    fill="#3c2d8e"
+    transform="rotate(14, 22, 132)"
+  />
 
-  <!-- Bar 1 (short) -->
-  <rect x="22" y="88" width="14" height="40" fill="#6366f1"/>
+  <!-- Middle page -->
+  <path
+    d="M22 132 L22 16 Q22 6 32 6 L80 6 Q91 6 90 17 L78 82 L108 82 L108 132 Z"
+    fill="#6045c0"
+    transform="rotate(7, 22, 132)"
+  />
 
-  <!-- Bar 2 (medium) -->
-  <rect x="38" y="70" width="14" height="58" fill="#6366f1"/>
-
-  <!-- Bar 3 (tall) + arrow shaft as one element -->
-  <rect x="54" y="20" width="16" height="108" fill="#6366f1"/>
-
-  <!-- Arrow head (wide triangle, same tip x as bar-3 center) -->
-  <polygon points="62,4 41,20 83,20" fill="#6366f1"/>
-
-  <!-- White separators between bars (drawn on top) -->
-  <rect x="36" y="70" width="2" height="58" fill="white"/>
-  <rect x="52" y="20" width="2" height="108" fill="white"/>
+  <!-- Front page -->
+  <path
+    d="M22 132 L22 16 Q22 6 32 6 L80 6 Q91 6 90 17 L78 82 L108 82 L108 132 Z"
+    fill="#9375e8"
+    stroke="#c4b0f8"
+    stroke-width="3.5"
+    stroke-linejoin="round"
+  />
 
   <!-- LeadFlow wordmark -->
-  <text x="105" y="97"
-        font-family="Inter, system-ui, -apple-system, sans-serif"
-        font-size="62" font-weight="700"
-        fill="#f8f8f8" letter-spacing="-0.5">LeadFlow</text>
+  <text
+    x="132"
+    y="104"
+    font-family="Inter, -apple-system, BlinkMacSystemFont, system-ui, sans-serif"
+    font-size="64"
+    font-weight="800"
+    fill="white"
+    letter-spacing="-0.5"
+  >LeadFlow</text>
 </svg>
