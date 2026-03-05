@@ -5,11 +5,26 @@ const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 })
 
-const templateContext: Record<TemplateType, string> = {
-  freelancer: 'a freelance professional offering specialized skills and services',
-  agency: 'a full-service agency with a dedicated team of specialists',
-  contractor: 'a licensed contractor providing professional trade or construction services',
-  consultant: 'a business consultant providing strategic expertise and advisory services',
+const providerLabel: Record<TemplateType, string> = {
+  freelancer:  'independent freelance professional',
+  agency:      'full-service agency',
+  contractor:  'licensed professional contractor',
+  consultant:  'specialist business consultant',
+}
+
+async function withRetry<T>(fn: () => Promise<T>, attempts = 3): Promise<T> {
+  let lastError: unknown
+  for (let i = 0; i < attempts; i++) {
+    try {
+      return await fn()
+    } catch (err) {
+      lastError = err
+      if (i < attempts - 1) {
+        await new Promise(r => setTimeout(r, (i + 1) * 1500))
+      }
+    }
+  }
+  throw lastError
 }
 
 export async function generateProposal({
@@ -31,67 +46,65 @@ export async function generateProposal({
   additionalNotes?: string
   brandVoice?: string
 }) {
-  const providerContext = templateContext[templateType]
+  const provider = providerLabel[templateType]
 
-  const prompt = `You are an expert business proposal writer. Generate a compelling, professional business proposal for ${providerContext}.
-${brandVoice ? `\nBRAND VOICE & TONE:\n${brandVoice}\nApply this voice and tone throughout the entire proposal.\n` : ''}
+  const systemPrompt = `You are a senior sales strategist and proposal writer who has helped service businesses win over $50M in contracts. You write proposals that feel personal, credible, and genuinely valuable to receive — not like a template.
 
-CLIENT INFORMATION:
-- Client Name: ${clientName}
-- Client's Business Type: ${businessType}
+Your proposals follow these principles:
+- Lead with what the client gains, not what the service provider does
+- Make the client feel understood before pitching anything
+- Use specific, concrete language — never vague buzzwords
+- Sound like a real expert who cares about the outcome, not a salesperson
+- Every section earns the reader's attention before asking for anything
 
-PROJECT DETAILS:
-- Scope of Work: ${scope}
+Never use: "In today's fast-paced world", "leverage", "synergies", "cutting-edge", "best-in-class", "holistic approach", "seamlessly", "game-changing", "innovative solution", "take your business to the next level". These phrases signal AI and erode trust instantly.`
+
+  const voiceLine = brandVoice
+    ? `\nVOICE & TONE:\n${brandVoice}\nApply this throughout — the proposal should feel like the service provider wrote it themselves.\n`
+    : ''
+
+  const notesLine = additionalNotes
+    ? `\nADDITIONAL CONTEXT FROM THE SERVICE PROVIDER:\n${additionalNotes}`
+    : ''
+
+  const userPrompt = `Write a proposal for a ${provider} pitching to ${clientName}${businessType ? `, a ${businessType}` : ''}.
+${voiceLine}
+PROJECT:
+- Work: ${scope}
 - Investment: ${price}
-- Timeline: ${timeline}
-${additionalNotes ? `- Additional Notes: ${additionalNotes}` : ''}
+- Timeline: ${timeline}${notesLine}
 
-Write a complete, professional proposal with these exact sections using markdown formatting:
+Write the proposal in four sections using markdown. Be specific throughout — pull details directly from the project info above.
 
-## Executive Summary
-[2-3 sentences that capture the essence of the engagement, the client's need, and the value you provide. Make it compelling.]
+## Introduction
+Two to three sentences. Open by naming a real challenge or goal that ${clientName} is likely facing right now, then connect it directly to why this specific project matters. Don't introduce the service provider yet. Make ${clientName} feel seen and understood.
 
-## Understanding Your Needs
-[Show you understand the client's business challenges and goals. Be specific to their business type and scope.]
+## Why This Will Work for You
+This is the value proposition — frame it entirely as outcomes for ${clientName}, not as a list of services. What changes for them after this project is done? What problem disappears? What becomes possible? Write in flowing prose (3–4 sentences), grounded in their specific context as ${businessType ? `a ${businessType}` : 'a business'}.
 
-## Proposed Scope of Work
-[Detailed breakdown of exactly what will be delivered. Use bullet points for clarity. Be specific and professional.]
+## What You Can Expect
+Build credibility without chest-thumping. Describe the approach, the process, and what makes this service provider the right fit for this specific project. Reference the actual scope and timeline. Use 4–5 focused bullet points written from the client's perspective — what they experience and receive, not what the provider "does".
 
-## Project Timeline
-[Clear timeline breakdown with phases. Reference the provided timeline. Structure it logically.]
-
-## Investment
-[Professional pricing presentation. Include what's covered. State the total investment clearly.]
-
-## Payment Terms
-[Standard professional payment terms — typically 50% upfront, 50% on completion, or milestone-based. Adjust based on project scope.]
-
-## Why Work With Us
-[3-4 compelling reasons. Focus on value, expertise, and outcomes — not features.]
-
-## Next Steps
-[Clear call to action. What should the client do to move forward? Keep it simple and easy to act on.]
+## Investment & Next Steps
+State the investment (${price}) clearly and confidently — no hedging or apology. Describe the timeline (${timeline}), what's included, and payment terms (50% to start, 50% on completion, unless the scope clearly warrants milestones). Close with a single, low-friction next step. Make it easy to say yes — one action, clearly stated.
 
 ---
-*This proposal is valid for 30 days from the date of issue.*
+*Proposal valid for 30 days.*
 
-Use confident, professional business language. Be specific about deliverables. Keep it persuasive but not pushy. The tone should be warm, expert, and results-focused.`
+Write like a trusted expert. Be direct. Be specific. Be human.`
 
-  const response = await openai.chat.completions.create({
-    model: 'gpt-4o',
-    messages: [
-      {
-        role: 'system',
-        content: 'You are an expert business proposal writer who helps service businesses win clients. You write clear, professional, and persuasive proposals that focus on value and outcomes.',
-      },
-      {
-        role: 'user',
-        content: prompt,
-      },
-    ],
-    temperature: 0.7,
-    max_tokens: 2000,
+  return withRetry(async () => {
+    const response = await openai.chat.completions.create({
+      model: 'gpt-4o',
+      messages: [
+        { role: 'system', content: systemPrompt },
+        { role: 'user',   content: userPrompt },
+      ],
+      temperature: 0.65,
+      max_tokens: 1800,
+    })
+    const text = response.choices[0].message.content
+    if (!text) throw new Error('Empty response from OpenAI')
+    return text
   })
-
-  return response.choices[0].message.content || ''
 }

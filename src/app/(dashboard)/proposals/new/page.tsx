@@ -7,6 +7,7 @@ import { Card, CardContent } from '@/components/ui/card'
 import { Lock, ArrowRight } from 'lucide-react'
 import Link from 'next/link'
 import { formatDate } from '@/lib/utils'
+import { Suspense } from 'react'
 
 export default async function NewProposalPage() {
   const supabase = createClient()
@@ -59,5 +60,9 @@ export default async function NewProposalPage() {
     )
   }
 
-  return <NewProposalClient usage={usage} />
+  return (
+    <Suspense>
+      <NewProposalClient usage={usage} />
+    </Suspense>
+  )
 }
