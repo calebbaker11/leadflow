@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 68 92" fill="none">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 92" fill="none">
   <!-- Swoosh: thick C-bracket -->
   <path d="M 8,44 C -6,64 12,86 56,80" stroke="#6366f1" stroke-width="8" stroke-linecap="round" fill="none"/>
 
@@ -9,8 +9,11 @@
   <!-- Bar 3 (tall, rightmost) -->
   <rect x="41" y="24" width="13" height="58" rx="1" fill="#6366f1"/>
 
-  <!-- Arrow shaft (connects from top of bar 3 upward) -->
+  <!-- Arrow shaft -->
   <rect x="44.5" y="10" width="6" height="16" rx="1" fill="#6366f1"/>
   <!-- Arrow head -->
   <polygon points="47.5,0 37,16 58,16" fill="#6366f1"/>
+
+  <!-- LeadFlow text in white -->
+  <text x="76" y="64" font-family="Inter, system-ui, -apple-system, sans-serif" font-size="36" font-weight="700" fill="#ffffff" letter-spacing="-0.3">LeadFlow</text>
 </svg>
