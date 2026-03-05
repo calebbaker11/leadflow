@@ -1,4 +1,5 @@
 import { createClient } from '@/lib/supabase/server'
+import { redirect } from 'next/navigation'
 import { getProposalUsage } from '@/lib/proposal-limits'
 import { NewProposalClient } from '@/components/proposals/new-proposal-client'
 import { Button } from '@/components/ui/button'
@@ -6,11 +7,12 @@ import { Card, CardContent } from '@/components/ui/card'
 import { Lock, ArrowRight } from 'lucide-react'
 import Link from 'next/link'
 import { formatDate } from '@/lib/utils'
+import { Suspense } from 'react'
 
 export default async function NewProposalPage() {
   const supabase = createClient()
-  const { data: { session } } = await supabase.auth.getSession()
-  const user = session!.user
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) redirect('/login')
 
   const usage = await getProposalUsage(user.id, supabase)
 
@@ -58,5 +60,9 @@ export default async function NewProposalPage() {
     )
   }
 
-  return <NewProposalClient usage={usage} />
+  return (
+    <Suspense>
+      <NewProposalClient usage={usage} />
+    </Suspense>
+  )
 }

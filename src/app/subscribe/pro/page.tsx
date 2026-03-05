@@ -69,7 +69,7 @@ function SubscribeProContent() {
             Try LeadFlow Pro free for 7 days
           </h1>
           <p className="text-sm text-text-secondary">
-            Full Pro access during your trial. Then $99/month — cancel anytime.
+            Full Pro access during your trial. Then $89/month — cancel anytime.
           </p>
         </div>
 
@@ -98,7 +98,7 @@ function SubscribeProContent() {
               <span className="text-4xl font-bold text-text-primary">$0</span>
               <span className="text-text-muted text-sm">today</span>
             </div>
-            <p className="text-xs text-text-muted">then $99/month after your trial ends</p>
+            <p className="text-xs text-text-muted">then $89/month after your trial ends</p>
           </div>
 
           <ul className="flex flex-col gap-2.5 mb-7">

@@ -35,7 +35,7 @@ export async function POST(request: Request) {
       customerEmail: user.email!,
       userId: user.id,
       priceId,
-      successUrl: `${appUrl}/dashboard?subscription=success`,
+      successUrl: `${appUrl}/proposals/new?welcome=1`,
       cancelUrl,
     })
 

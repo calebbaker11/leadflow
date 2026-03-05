@@ -7,8 +7,8 @@ import { Check, AlertCircle } from 'lucide-react'
 import { toast } from 'sonner'
 
 const included = [
-  '7-day free trial — no charge today',
-  '30 high-converting strategic proposals a month',
+  '7-day free trial — 5 proposals included',
+  '30 proposals per month after trial',
   'GPT-4o powered generation',
   'PDF export',
   'Shareable proposal links',
