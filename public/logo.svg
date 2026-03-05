@@ -1,19 +1,23 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 330 92" fill="none">
-  <!-- Swoosh: thick C-bracket -->
-  <path d="M 8,44 C -6,64 12,86 56,80" stroke="#6366f1" stroke-width="8" stroke-linecap="round" fill="none"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 140">
+  <!-- Swoosh: filled crescent, sweeps from thin upper-left tip to thick rounded lower-right -->
+  <path d="M 8,64 C -16,80 -12,114 42,136 C 54,142 66,140 65,130 C 50,128 26,118 16,106 C 6,92 8,74 14,66 Z"
+        fill="#6366f1"/>
 
-  <!-- Bar 1 (short, leftmost) -->
-  <rect x="13" y="54" width="12" height="28" rx="1" fill="#6366f1"/>
+  <!-- Bar 1 (short) -->
+  <rect x="16" y="94" width="15" height="38" fill="#6366f1"/>
   <!-- Bar 2 (medium) -->
-  <rect x="27" y="40" width="12" height="42" rx="1" fill="#6366f1"/>
-  <!-- Bar 3 (tall, rightmost) -->
-  <rect x="41" y="24" width="13" height="58" rx="1" fill="#6366f1"/>
+  <rect x="33" y="76" width="15" height="56" fill="#6366f1"/>
+  <!-- Bar 3 (tall) -->
+  <rect x="50" y="55" width="16" height="77" fill="#6366f1"/>
 
-  <!-- Arrow shaft -->
-  <rect x="44.5" y="10" width="6" height="16" rx="1" fill="#6366f1"/>
-  <!-- Arrow head -->
-  <polygon points="47.5,0 37,16 58,16" fill="#6366f1"/>
+  <!-- Arrow shaft (same width as bar 3) -->
+  <rect x="50" y="24" width="16" height="31" fill="#6366f1"/>
+
+  <!-- Arrow head (wide triangle) -->
+  <polygon points="58,2 36,26 80,26" fill="#6366f1"/>
 
   <!-- LeadFlow text in white -->
-  <text x="76" y="68" font-family="Inter, system-ui, -apple-system, sans-serif" font-size="48" font-weight="700" fill="#ffffff" letter-spacing="-0.5">LeadFlow</text>
+  <text x="112" y="100"
+        font-family="Inter, system-ui, -apple-system, sans-serif"
+        font-size="64" font-weight="700" fill="#ffffff" letter-spacing="-0.5">LeadFlow</text>
 </svg>
