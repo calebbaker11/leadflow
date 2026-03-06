@@ -1,11 +1,17 @@
 import Stripe from 'stripe'
 
-export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
+function requireEnv(name: string): string {
+  const value = process.env[name]
+  if (!value) throw new Error(`Missing required environment variable: ${name}`)
+  return value
+}
+
+export const stripe = new Stripe(requireEnv('STRIPE_SECRET_KEY'), {
   apiVersion: '2024-04-10',
 })
 
-export const STRIPE_PRICE_ID = process.env.STRIPE_PRICE_ID!
-export const STRIPE_PRO_PRICE_ID = process.env.STRIPE_PRO_PRICE_ID!
+export const STRIPE_PRICE_ID = requireEnv('STRIPE_PRICE_ID')
+export const STRIPE_PRO_PRICE_ID = requireEnv('STRIPE_PRO_PRICE_ID')
 
 export async function createCheckoutSession({
   customerId,

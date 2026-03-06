@@ -75,7 +75,6 @@ const proItems = [
   'AI-powered objection detection with built-in counter angles',
   'Multi-touch follow-up sequences that increase response rates',
   'Brand voice customization for premium positioning',
-  'Pricing optimization insights that maximize deal value',
   'Everything in LeadFlow Base included',
   'Cancel anytime',
 ]
@@ -607,13 +606,33 @@ export default function LandingPage() {
                   Create account
                 </Link>
               </div>
+              <div className="flex flex-col gap-3">
+                <p className="text-xs font-semibold text-text-secondary uppercase tracking-wider">
+                  Legal
+                </p>
+                <Link
+                  href="/legal/terms"
+                  className="text-xs text-text-muted hover:text-text-secondary transition-colors"
+                >
+                  Terms of Service
+                </Link>
+                <Link
+                  href="/legal/privacy"
+                  className="text-xs text-text-muted hover:text-text-secondary transition-colors"
+                >
+                  Privacy Policy
+                </Link>
+              </div>
             </div>
           </div>
           <div className="border-t border-border/50 pt-6 flex flex-col sm:flex-row items-center justify-between gap-3">
             <p className="text-xs text-text-muted">
               © {new Date().getFullYear()} LeadFlow. All rights reserved.
             </p>
-            <p className="text-xs text-text-muted">Built for closers.</p>
+            <div className="flex gap-4">
+              <Link href="/legal/terms" className="text-xs text-text-muted hover:text-text-secondary transition-colors">Terms</Link>
+              <Link href="/legal/privacy" className="text-xs text-text-muted hover:text-text-secondary transition-colors">Privacy</Link>
+            </div>
           </div>
         </div>
       </footer>

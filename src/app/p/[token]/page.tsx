@@ -3,6 +3,8 @@ import { notFound } from 'next/navigation'
 import { ProposalPreview } from '@/components/proposals/proposal-preview'
 import { Zap } from 'lucide-react'
 import Link from 'next/link'
+import { headers } from 'next/headers'
+import { rateLimit } from '@/lib/rate-limit'
 import type { Metadata } from 'next'
 
 interface Props {
@@ -24,6 +26,25 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function PublicProposalPage({ params }: Props) {
+  const headersList = headers()
+  const ip =
+    headersList.get('x-forwarded-for')?.split(',')[0]?.trim() ??
+    headersList.get('x-real-ip') ??
+    'unknown'
+
+  // 30 requests per minute per IP on public proposal pages
+  const allowed = rateLimit(`public-proposal:${ip}`, 30, 60_000)
+  if (!allowed) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="text-center">
+          <p className="text-lg font-semibold text-text-primary mb-2">Too many requests</p>
+          <p className="text-sm text-text-muted">Please wait a moment and try again.</p>
+        </div>
+      </div>
+    )
+  }
+
   const supabase = createClient()
 
   const { data: proposal } = await supabase

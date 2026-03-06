@@ -148,9 +148,23 @@ create trigger subscriptions_updated_at
   for each row execute procedure public.handle_updated_at();
 
 -- ============================================================
+-- PROCESSED WEBHOOK EVENTS TABLE
+-- Prevents duplicate webhook processing (idempotency)
+-- ============================================================
+create table public.processed_webhook_events (
+  id text primary key,          -- Stripe event ID (e.g. evt_xxx)
+  type text not null,           -- Stripe event type
+  processed_at timestamptz not null default now()
+);
+
+-- Service role only; no RLS needed for direct admin writes
+alter table public.processed_webhook_events enable row level security;
+
+-- ============================================================
 -- INDEXES
 -- ============================================================
 create index proposals_user_id_idx on public.proposals(user_id);
 create index proposals_share_token_idx on public.proposals(share_token);
 create index subscriptions_user_id_idx on public.subscriptions(user_id);
 create index profiles_stripe_customer_id_idx on public.profiles(stripe_customer_id);
+create index processed_events_processed_at_idx on public.processed_webhook_events(processed_at);

@@ -11,20 +11,6 @@ export interface ProposalUsage {
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export async function getProposalUsage(userId: string, supabase: SupabaseClient<any, any, any>): Promise<ProposalUsage> {
-  const skipSubscriptionCheck = process.env.SKIP_SUBSCRIPTION_CHECK === 'true'
-
-  if (skipSubscriptionCheck) {
-    // Dev mode: show real proposal count against the paid plan limit so the widget is visible
-    const periodStart = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString()
-    const { count } = await supabase
-      .from('proposals')
-      .select('*', { count: 'exact', head: true })
-      .eq('user_id', userId)
-      .gte('created_at', periodStart)
-    const used = count ?? 0
-    return { used, limit: 30, plan: 'paid', canCreate: true, periodEnd: null }
-  }
-
   const { data: profile } = await supabase
     .from('profiles')
     .select('subscription_status')

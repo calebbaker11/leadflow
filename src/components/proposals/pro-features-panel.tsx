@@ -95,7 +95,7 @@ export function ProFeaturesPanel({ proposalId, hasProposalText }: ProFeaturesPan
           onClick={() => window.open('/subscribe/pro', '_blank')}
         >
           <Zap className="h-3.5 w-3.5" />
-          Upgrade to Pro — $99/month
+          Upgrade to Pro — $89/month
         </Button>
       </div>
     )

@@ -101,8 +101,15 @@ export default function SignupPage() {
       </form>
 
       <p className="mt-4 text-center text-xs text-text-muted leading-relaxed">
-        By creating an account you agree to our Terms of Service. You&apos;ll be asked to subscribe
-        after signup.
+        By creating an account you agree to our{' '}
+        <Link href="/legal/terms" className="underline hover:text-text-secondary transition-colors">
+          Terms of Service
+        </Link>{' '}
+        and{' '}
+        <Link href="/legal/privacy" className="underline hover:text-text-secondary transition-colors">
+          Privacy Policy
+        </Link>
+        . You&apos;ll be asked to subscribe after signup.
       </p>
 
       <p className="mt-6 text-center text-sm text-text-muted">
