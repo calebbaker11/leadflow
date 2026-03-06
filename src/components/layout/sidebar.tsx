@@ -42,7 +42,7 @@ export function Sidebar({ usage }: SidebarProps) {
     <aside className="flex h-screen w-72 flex-col border-r border-border bg-surface">
       {/* Logo */}
       <div className="flex h-20 items-center justify-center px-4 border-b border-border">
-        <img src="/logo.svg" alt="LeadFlow" className="w-full h-auto" />
+        <img src="/logo.svg" alt="LeadFlow" style={{ width: '238px', height: '80px' }} />
       </div>
 
       {/* Navigation */}
