@@ -22,12 +22,23 @@ export async function getProposalUsage(userId: string, supabase: SupabaseClient<
   const status = profile.subscription_status
 
   if (status === 'trialing') {
+    const { data: trialSub } = await supabase
+      .from('subscriptions')
+      .select('stripe_price_id')
+      .eq('user_id', userId)
+      .order('created_at', { ascending: false })
+      .limit(1)
+      .maybeSingle()
+
+    const isProTrial = trialSub?.stripe_price_id === process.env.STRIPE_PRO_PRICE_ID
+
     const { count } = await supabase
       .from('proposals')
       .select('*', { count: 'exact', head: true })
       .eq('user_id', userId)
     const used = count ?? 0
-    return { used, limit: 5, plan: 'trial', canCreate: used < 5, periodEnd: null }
+    const limit = isProTrial ? 100 : 5
+    return { used, limit, plan: isProTrial ? 'pro' : 'trial', canCreate: used < limit, periodEnd: null }
   }
 
   if (status === 'active') {
