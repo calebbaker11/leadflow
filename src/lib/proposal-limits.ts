@@ -37,8 +37,7 @@ export async function getProposalUsage(userId: string, supabase: SupabaseClient<
       .select('*', { count: 'exact', head: true })
       .eq('user_id', userId)
     const used = count ?? 0
-    const limit = isProTrial ? 100 : 5
-    return { used, limit, plan: isProTrial ? 'pro' : 'trial', canCreate: used < limit, periodEnd: null }
+    return { used, limit: 5, plan: isProTrial ? 'pro' : 'trial', canCreate: used < 5, periodEnd: null }
   }
 
   if (status === 'active') {
