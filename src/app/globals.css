@@ -61,7 +61,8 @@
   /* Reset layout constraints so content flows across multiple pages */
   #__next,
   #__next > div,
-  main {
+  main,
+  .proposal-page-root {
     height: auto !important;
     overflow: visible !important;
     display: block !important;

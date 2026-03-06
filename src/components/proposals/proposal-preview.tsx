@@ -160,6 +160,48 @@ export function ProposalPreview({
                 {children}
               </em>
             ),
+            table: ({ children }) => (
+              <table
+                className={cn(
+                  'w-full my-4 border-collapse text-sm',
+                  printMode ? 'text-gray-700' : 'text-text-secondary'
+                )}
+              >
+                {children}
+              </table>
+            ),
+            thead: ({ children }) => <thead>{children}</thead>,
+            tbody: ({ children }) => <tbody>{children}</tbody>,
+            tr: ({ children }) => (
+              <tr
+                className={cn(
+                  'border-b',
+                  printMode ? 'border-gray-100' : 'border-border'
+                )}
+              >
+                {children}
+              </tr>
+            ),
+            th: ({ children }) => (
+              <th
+                className={cn(
+                  'text-left py-2.5 pr-6 font-semibold align-top w-44 whitespace-nowrap',
+                  printMode ? 'text-gray-900' : 'text-text-primary'
+                )}
+              >
+                {children}
+              </th>
+            ),
+            td: ({ children }) => (
+              <td
+                className={cn(
+                  'py-2.5 leading-relaxed align-top',
+                  printMode ? 'text-gray-700' : 'text-text-secondary'
+                )}
+              >
+                {children}
+              </td>
+            ),
           }}
         >
           {content}

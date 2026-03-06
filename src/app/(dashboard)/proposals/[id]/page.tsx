@@ -141,7 +141,7 @@ export default function ProposalDetailPage() {
   if (!proposal) return null
 
   return (
-    <div className="flex flex-col h-full">
+    <div className="flex flex-col h-full proposal-page-root">
       <div className="no-print">
       <Topbar
         title={proposal.client_name}
