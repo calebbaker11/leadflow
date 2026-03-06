@@ -27,7 +27,7 @@ export function ProposalPreview({
       className={cn(
         'flex flex-col',
         printMode
-          ? 'bg-white text-gray-900 p-12 min-h-screen'
+          ? 'bg-white text-gray-900 p-12'
           : 'bg-[#0f0f0f] rounded-xl border border-border',
         className
       )}

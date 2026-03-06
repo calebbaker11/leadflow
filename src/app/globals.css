@@ -50,9 +50,21 @@
 
 /* Print styles for proposal export */
 @media print {
+  html,
   body {
+    height: auto !important;
+    overflow: visible !important;
     background: white !important;
     color: #111 !important;
+  }
+
+  /* Reset layout constraints so content flows across multiple pages */
+  #__next,
+  #__next > div,
+  main {
+    height: auto !important;
+    overflow: visible !important;
+    display: block !important;
   }
 
   .no-print {
