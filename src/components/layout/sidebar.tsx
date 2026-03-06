@@ -8,12 +8,13 @@ import {
   FileText,
   Settings,
   LogOut,
+  BarChart2,
 } from 'lucide-react'
 import { createClient } from '@/lib/supabase/client'
 import { useRouter } from 'next/navigation'
 import type { ProposalUsage } from '@/lib/proposal-limits'
 
-const navItems = [
+const baseNavItems = [
   { href: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
   { href: '/proposals', label: 'Proposals', icon: FileText },
   { href: '/settings', label: 'Settings', icon: Settings },
@@ -27,6 +28,7 @@ export function Sidebar({ usage }: SidebarProps) {
   const pathname = usePathname()
   const router = useRouter()
   const supabase = createClient()
+  const isPro = usage.plan === 'pro'
 
   async function handleSignOut() {
     await supabase.auth.signOut()
@@ -38,11 +40,24 @@ export function Sidebar({ usage }: SidebarProps) {
   const isAtLimit = remaining === 0
   const isNearLimit = !isAtLimit && remaining <= Math.ceil(usage.limit * 0.2)
 
+  const navItems = isPro
+    ? [
+        ...baseNavItems.slice(0, 2),
+        { href: '/pro-dashboard', label: 'Pro Dashboard', icon: BarChart2 },
+        ...baseNavItems.slice(2),
+      ]
+    : baseNavItems
+
   return (
     <aside className="flex h-screen w-60 flex-col border-r border-border bg-surface">
       {/* Logo */}
-      <div className="flex h-16 items-center px-5 border-b border-border">
+      <div className="flex h-16 items-center justify-between px-5 border-b border-border">
         <img src="/logo.svg" alt="LeadFlow" className="h-10" />
+        {isPro && (
+          <span className="rounded-md bg-accent px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-white">
+            Pro
+          </span>
+        )}
       </div>
 
       {/* Navigation */}
@@ -103,7 +118,7 @@ export function Sidebar({ usage }: SidebarProps) {
             </div>
             <p className="text-[10px] text-text-muted mt-1.5">
               {usage.used}/{usage.limit}{' '}
-              {usage.plan === 'trial' ? 'free trial' : 'this billing period'}
+              {usage.plan === 'trial' ? 'free trial' : usage.plan === 'pro' ? 'Pro · this period' : 'this billing period'}
             </p>
           </div>
         )}

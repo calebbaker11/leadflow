@@ -27,6 +27,16 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'Active subscription required' }, { status: 403 })
   }
 
+  const { data: sub } = await supabase
+    .from('subscriptions')
+    .select('stripe_price_id')
+    .eq('user_id', user.id)
+    .order('created_at', { ascending: false })
+    .limit(1)
+    .maybeSingle()
+
+  const isPro = sub?.stripe_price_id === process.env.STRIPE_PRO_PRICE_ID
+
   const body = await request.json()
   const {
     proposalId,
@@ -67,6 +77,7 @@ export async function POST(request: Request) {
       timeline,
       additionalNotes: additional_notes,
       brandVoice: profile.brand_voice ?? undefined,
+      isPro: !!isPro,
     })
 
     // Update existing proposal

@@ -73,6 +73,21 @@ async function withRetry<T>(fn: () => Promise<T>, attempts = 3): Promise<T> {
   throw lastError
 }
 
+const proSystemAddition = `
+
+PRO MODE — SALES-FOCUSED OUTPUT:
+You are writing this proposal with one goal: winning the client. Every sentence should earn its place by moving the client closer to saying yes.
+
+Apply these principles throughout:
+- Make the client feel the cost of *not* acting — what stays broken, what they keep losing
+- Use specific, concrete outcomes rather than vague benefits ("saves 6 hours/week" beats "saves time")
+- Mirror the client's language back at them — it builds unconscious trust
+- Plant proof: reference the work, the timeline, the exact deliverable as evidence of your confidence
+- End with momentum — the next step should feel obvious, not like a commitment
+- Price should feel like an investment with a clear return, not an expense
+
+The goal isn't to impress. It's to make saying yes feel like the obviously right move.`
+
 export async function generateProposal({
   clientName,
   businessType,
@@ -82,6 +97,7 @@ export async function generateProposal({
   timeline,
   additionalNotes,
   brandVoice,
+  isPro,
 }: {
   clientName: string
   businessType: string
@@ -91,10 +107,11 @@ export async function generateProposal({
   timeline: string
   additionalNotes?: string
   brandVoice?: string
+  isPro?: boolean
 }) {
   const provider = providerLabel[templateType]
 
-  const systemPrompt = systemPrompts[templateType]
+  const systemPrompt = systemPrompts[templateType] + (isPro ? proSystemAddition : '')
 
   const voiceLine = brandVoice
     ? `\nVOICE & TONE:\n${brandVoice}\nApply this throughout — the proposal should feel like the service provider wrote it themselves.\n`
@@ -102,6 +119,10 @@ export async function generateProposal({
 
   const notesLine = additionalNotes
     ? `\nADDITIONAL CONTEXT FROM THE SERVICE PROVIDER:\n${additionalNotes}`
+    : ''
+
+  const proClosingInstruction = isPro
+    ? `\n\nPRO CLOSING: In the Investment & Next Steps section, add one sentence that creates a natural sense of momentum — a project start window, a capacity note, or a simple reason why now is the right time. Keep it honest and specific, not pushy.`
     : ''
 
   const userPrompt = `Write a proposal for a ${provider} pitching to ${clientName}${businessType ? `, a ${businessType}` : ''}.
@@ -123,7 +144,7 @@ Skip the pitch. Tell ${clientName} what actually changes once this project is do
 Be concrete. Walk them through what working with you actually looks like — the process, what you'll handle, what they'll get. Reference the real scope and timeline. Use 4–5 bullet points written from their side: what they see, get, and don't have to worry about.
 
 ## Investment & Next Steps
-Say the number (${price}) straight — no "starting at", no apologies, no fluff around it. Lay out the timeline (${timeline}), what's covered, and terms (50% upfront, 50% on completion — adjust if the scope warrants milestones). End with one clear next step. Make it easy to say yes.
+Say the number (${price}) straight — no "starting at", no apologies, no fluff around it. Lay out the timeline (${timeline}), what's covered, and terms (50% upfront, 50% on completion — adjust if the scope warrants milestones). End with one clear next step. Make it easy to say yes.${proClosingInstruction}
 
 ---
 *Proposal valid for 30 days.*
@@ -137,8 +158,8 @@ Write like a person, not a brand. Confident, clear, no BS.`
         { role: 'system', content: systemPrompt },
         { role: 'user',   content: userPrompt },
       ],
-      temperature: 0.65,
-      max_tokens: 1800,
+      temperature: isPro ? 0.7 : 0.65,
+      max_tokens: isPro ? 2200 : 1800,
     })
     const text = response.choices[0].message.content
     if (!text) throw new Error('Empty response from OpenAI')
