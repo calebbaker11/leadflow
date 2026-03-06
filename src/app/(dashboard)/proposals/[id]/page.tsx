@@ -111,10 +111,7 @@ export default function ProposalDetailPage() {
   }
 
   function handlePrint() {
-    const prev = document.title
-    document.title = `Proposal — ${proposal?.client_name ?? ''}`
-    window.print()
-    document.title = prev
+    window.open(`/print/${id}`, '_blank')
   }
 
   async function handleDelete() {
@@ -213,16 +210,6 @@ export default function ProposalDetailPage() {
         </div>
       </div>
 
-      {/* Print-only full view */}
-      {proposal.generated_proposal_text && (
-        <div className="print-only hidden">
-          <ProposalPreview
-            content={proposal.generated_proposal_text}
-            clientName={proposal.client_name}
-            printMode
-          />
-        </div>
-      )}
     </div>
   )
 }

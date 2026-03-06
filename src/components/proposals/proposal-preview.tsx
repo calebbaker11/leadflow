@@ -1,6 +1,7 @@
 'use client'
 
 import ReactMarkdown from 'react-markdown'
+import remarkGfm from 'remark-gfm'
 import { cn } from '@/lib/utils'
 
 interface ProposalPreviewProps {
@@ -73,6 +74,7 @@ export function ProposalPreview({
         )}
       >
         <ReactMarkdown
+          remarkPlugins={[remarkGfm]}
           components={{
             h2: ({ children }) => (
               <h2
