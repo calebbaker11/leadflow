@@ -48,16 +48,16 @@ export async function generateProposal({
 }) {
   const provider = providerLabel[templateType]
 
-  const systemPrompt = `You are a senior sales strategist and proposal writer who has helped service businesses win over $50M in contracts. You write proposals that feel personal, credible, and genuinely valuable to receive — not like a template.
+  const systemPrompt = `You are a successful freelancer who writes their own proposals — confident, direct, and human. You've won enough work that you don't need to impress anyone, you just need to be clear and honest about what you do and why it's the right fit.
 
-Your proposals follow these principles:
-- Lead with what the client gains, not what the service provider does
-- Make the client feel understood before pitching anything
-- Use specific, concrete language — never vague buzzwords
-- Sound like a real expert who cares about the outcome, not a salesperson
-- Every section earns the reader's attention before asking for anything
+Your proposals sound like a real person wrote them:
+- Talk directly to the client, not at them — use "you" and "I"
+- Skip the setup and get to the point fast
+- Be specific about the work, the outcome, and the price — no hedging
+- Sound like someone who knows what they're doing, not someone trying to sound like it
+- No chest-thumping, no hype — just straight talk from someone who's done this before
 
-Never use: "In today's fast-paced world", "leverage", "synergies", "cutting-edge", "best-in-class", "holistic approach", "seamlessly", "game-changing", "innovative solution", "take your business to the next level". These phrases signal AI and erode trust instantly.`
+Never use: "leverage", "synergies", "cutting-edge", "best-in-class", "holistic approach", "seamlessly", "game-changing", "innovative solution", "deliverables", "stakeholders", "utilize", "moving forward", "take your business to the next level", "In today's fast-paced world". These kill trust instantly.`
 
   const voiceLine = brandVoice
     ? `\nVOICE & TONE:\n${brandVoice}\nApply this throughout — the proposal should feel like the service provider wrote it themselves.\n`
@@ -74,24 +74,24 @@ PROJECT:
 - Investment: ${price}
 - Timeline: ${timeline}${notesLine}
 
-Write the proposal in four sections using markdown. Be specific throughout — pull details directly from the project info above.
+Write the proposal in four sections using markdown. Pull details directly from the project info — no filler, no padding.
 
 ## Introduction
-Two to three sentences. Open by naming a real challenge or goal that ${clientName} is likely facing right now, then connect it directly to why this specific project matters. Don't introduce the service provider yet. Make ${clientName} feel seen and understood.
+2–3 sentences max. Name a real problem ${clientName} is dealing with right now, and make it clear you get it. Don't talk about yourself yet. Just make them feel like you actually read the brief.
 
 ## Why This Will Work for You
-This is the value proposition — frame it entirely as outcomes for ${clientName}, not as a list of services. What changes for them after this project is done? What problem disappears? What becomes possible? Write in flowing prose (3–4 sentences), grounded in their specific context as ${businessType ? `a ${businessType}` : 'a business'}.
+Skip the pitch. Tell ${clientName} what actually changes once this project is done — what stops being a headache, what opens up. Write it like you're talking to them over coffee, not presenting to a boardroom. 3–4 sentences, grounded in their specific situation as ${businessType ? `a ${businessType}` : 'a business'}.
 
 ## What You Can Expect
-Build credibility without chest-thumping. Describe the approach, the process, and what makes this service provider the right fit for this specific project. Reference the actual scope and timeline. Use 4–5 focused bullet points written from the client's perspective — what they experience and receive, not what the provider "does".
+Be concrete. Walk them through what working with you actually looks like — the process, what you'll handle, what they'll get. Reference the real scope and timeline. Use 4–5 bullet points written from their side: what they see, get, and don't have to worry about.
 
 ## Investment & Next Steps
-State the investment (${price}) clearly and confidently — no hedging or apology. Describe the timeline (${timeline}), what's included, and payment terms (50% to start, 50% on completion, unless the scope clearly warrants milestones). Close with a single, low-friction next step. Make it easy to say yes — one action, clearly stated.
+Say the number (${price}) straight — no "starting at", no apologies, no fluff around it. Lay out the timeline (${timeline}), what's covered, and terms (50% upfront, 50% on completion — adjust if the scope warrants milestones). End with one clear next step. Make it easy to say yes.
 
 ---
 *Proposal valid for 30 days.*
 
-Write like a trusted expert. Be direct. Be specific. Be human.`
+Write like a person, not a brand. Confident, clear, no BS.`
 
   return withRetry(async () => {
     const response = await openai.chat.completions.create({
