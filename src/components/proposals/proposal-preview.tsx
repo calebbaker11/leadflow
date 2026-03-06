@@ -28,7 +28,7 @@ export function ProposalPreview({
       className={cn(
         'flex flex-col',
         printMode
-          ? 'bg-white text-gray-900 p-12'
+          ? 'bg-white text-gray-900 p-8'
           : 'bg-[#0f0f0f] rounded-xl border border-border',
         className
       )}
@@ -37,7 +37,7 @@ export function ProposalPreview({
       {/* Header */}
       <div
         className={cn(
-          'flex flex-col gap-1 border-b pb-6 mb-6',
+          'flex flex-col gap-1 border-b pb-4 mb-4',
           printMode ? 'border-gray-200' : 'border-border p-8'
         )}
       >
@@ -79,7 +79,7 @@ export function ProposalPreview({
             h2: ({ children }) => (
               <h2
                 className={cn(
-                  'text-base font-semibold mt-8 mb-3 pb-2 border-b',
+                  'text-base font-semibold mt-5 mb-2 pb-2 border-b',
                   printMode
                     ? 'text-gray-900 border-gray-200 text-indigo-900'
                     : 'text-text-primary border-border'
@@ -91,7 +91,7 @@ export function ProposalPreview({
             h3: ({ children }) => (
               <h3
                 className={cn(
-                  'text-sm font-semibold mt-5 mb-2',
+                  'text-sm font-semibold mt-3 mb-1.5',
                   printMode ? 'text-gray-800' : 'text-text-primary'
                 )}
               >
@@ -101,7 +101,7 @@ export function ProposalPreview({
             p: ({ children }) => (
               <p
                 className={cn(
-                  'text-sm leading-relaxed mb-3',
+                  'text-sm leading-snug mb-2',
                   printMode ? 'text-gray-700' : 'text-text-secondary'
                 )}
               >
@@ -111,7 +111,7 @@ export function ProposalPreview({
             ul: ({ children }) => (
               <ul
                 className={cn(
-                  'flex flex-col gap-1.5 mb-4 ml-4',
+                  'flex flex-col gap-1 mb-3 ml-4',
                   printMode ? 'text-gray-700' : 'text-text-secondary'
                 )}
               >
@@ -147,7 +147,7 @@ export function ProposalPreview({
             hr: () => (
               <hr
                 className={cn(
-                  'my-6',
+                  'my-3',
                   printMode ? 'border-gray-200' : 'border-border'
                 )}
               />
@@ -165,7 +165,7 @@ export function ProposalPreview({
             table: ({ children }) => (
               <table
                 className={cn(
-                  'w-full my-4 border-collapse text-sm',
+                  'w-full my-3 border-collapse text-sm',
                   printMode ? 'text-gray-700' : 'text-text-secondary'
                 )}
               >
@@ -187,7 +187,7 @@ export function ProposalPreview({
             th: ({ children }) => (
               <th
                 className={cn(
-                  'text-left py-2.5 pr-6 font-semibold align-top w-44 whitespace-nowrap',
+                  'text-left py-1.5 pr-6 font-semibold align-top w-44 whitespace-nowrap',
                   printMode ? 'text-gray-900' : 'text-text-primary'
                 )}
               >
@@ -197,7 +197,7 @@ export function ProposalPreview({
             td: ({ children }) => (
               <td
                 className={cn(
-                  'py-2.5 leading-relaxed align-top',
+                  'py-1.5 leading-snug align-top',
                   printMode ? 'text-gray-700' : 'text-text-secondary'
                 )}
               >
