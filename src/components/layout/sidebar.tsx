@@ -39,7 +39,7 @@ export function Sidebar({ usage }: SidebarProps) {
   const isNearLimit = !isAtLimit && remaining <= Math.ceil(usage.limit * 0.2)
 
   return (
-    <aside className="flex h-screen w-60 flex-col border-r border-border bg-surface">
+    <aside className="flex h-screen w-72 flex-col border-r border-border bg-surface">
       {/* Logo */}
       <div className="flex h-20 items-center justify-center px-4 border-b border-border">
         <img src="/logo.svg" alt="LeadFlow" className="w-full h-auto" />
